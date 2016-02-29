@@ -8,6 +8,7 @@
 # dependencies
 /backend/node_modules
 
+
 # misc
 /.sass-cache
 /connect.lock
@@ -26,4 +27,5 @@ testem.log
 .DS_Store
 Vagrantfile
 
-
+# uploads
+/backend/uploaded/*

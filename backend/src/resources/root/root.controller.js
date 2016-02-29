@@ -3,9 +3,9 @@
 
 // Get list of roots
 exports.index = function*(next) {
-	this.status = 403;
-  this.body = { 
-  	name : 'castlery', 
-  	info : 'API Docs URL'
-  };
+    this.status = 403;
+    this.body = {
+        'name': 'castlery',
+        'info': 'API Docs URL'
+    };
 };
