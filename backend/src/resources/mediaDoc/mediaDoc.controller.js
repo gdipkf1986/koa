@@ -5,9 +5,11 @@ const fs = require('fs');
 const path = require('path');
 const meter = require('stream-meter');
 
-const list = ()=> {
-    return [];
-};
+const ModelDoc = require('./mediaDoc.model');
+
+const list = ()=> [];
+
+const isValidFile = (fileOriName, mime, fileSize)=> true;
 
 Object.assign(exports, {
     index: function*(next) {
@@ -44,11 +46,15 @@ Object.assign(exports, {
             part.pipe(m).pipe(stream).on('finish', ()=> {
                 const fileSize = m.bytes;
                 const targetPath = stream.path;
+                if (isValidFile(fileOriName, mime, fileSize)) {
+
+                } else {
+                    return;
+                }
             });
             console.log('uploading %s -> %s', part.filename, stream.path);
         }
 
-        yield next;
     },
     put: function*(next) {
 

@@ -13,6 +13,7 @@ const config = require('./config/environment');
 const app = require('koa')();
 require('./config/koa')(app);
 require('./config/routes')(app);
+require('./config/database')(app);
 
 // Start server
 if (!module.parent) {
