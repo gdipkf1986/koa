@@ -1,0 +1,29 @@
+/config/dev-features.local.js
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/dist
+/tmp
+
+# dependencies
+/backend/node_modules
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log
+
+# webstorm
+/.idea
+
+# Vagrant
+/.vagrant
+
+# mac
+.DS_Store
+Vagrantfile
+
+
