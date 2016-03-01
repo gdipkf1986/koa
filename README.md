@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This project is for demo full stack skill set of javascript, build on **Koa**, **Angularjs** and other 3rd party libraries. 
+This project is for demo full stack skill set of javascript, build on **Koa**, **Angularjs** and other 3r []d party libraries. 
 
 Target to provide a REST service and SPA portal.
 
@@ -36,37 +36,34 @@ $ npm run local
 ```
 
 #### Features breakdown
-1.  System 
-    1. Framework  **done (koa)**
-    2. Data access layer **done (Mysql+Sequelize)**
-    3. Url schema
-    4. Middleware to normalize response
-    5. Model schema
-   6. File history
-   7. Record history
-        1. version field in model
+  - []  System 
+    - [x] Framework  **(koa)**
+    - [x] Data access layer **done (Mysql+Sequelize)**
+    - [x] Url schema
+    - [] History
+        - [] version field in model
+     
+ - [] REST Api
+      - [] POST
+          - [x] File upload **done**
+          - [] File S3 Storage
+          - [] Generate preview
+              - [] Image: thumbnail as request
+              - [] PDF: Convert current page to image as request
+      - [x] PUT **done**
+      - [x] GET 
+          - [x] Filter **done**
+          - [x] Pagination **done**
+          - [x] Sort **done**
+          - [] Full text search
+      - [x] Delete **done**
+ 
+ - [] Authentication
+     - [] Third party authentication integration
+     - [] User access control middleware
     
-2. REST Api
-    1. POST
-        1. File upload **done**
-        2. File S3 Storage
-        3. Generate preview
-            1. Image: thumbnail
-            2. PDF: Convert current page to image as request
-    2. PUT **done**
-    3. GET 
-        1. Filter **done**
-        2. Pagination **done**
-        3. Sort **done**
-        4. Full text search
-    4. Delete **done**
-
-3. Authentication
-   1. Third party authentication integration
-   2. User access control middleware
-   
-4. Deployment
-    1. Script to deploy
+ - [] Deployment
+      - [] Script to deploy
 
 
 
@@ -79,12 +76,12 @@ $ cd ~/frontend
 $ npm install
 $ gulp webserver
 ```
-
-1. System
-    1. Framework **done (angular1.4)**
-    2. Data persistent **done (simple implement)**
-    3. Route schema **done**
-    4. Build script **done**
-
-2. Data
-    1. Models
+ 
+ - [x] System
+      - [x] Framework **done (angular1.4)**
+      - [x] Data persistent **done (simple implement)**
+      - [x] Route schema **done**
+      - [x] Build script **done**
+ 
+ - [] Data
+      - [] Models
