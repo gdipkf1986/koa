@@ -1,5 +1,5 @@
 {
-  "name": "Castlery",
+  "name": "castlery",
   "version": "0.0.1",
   "main": "src/server.js",
   "dependencies": {
@@ -36,5 +36,11 @@
     "test-mocha": "NODE_ENV=test mocha --harmony ./src/**/*.spec.js",
     "test-jshint": "jshint -c .jshintrc src/**/*.js --exclude src/**/*.spec.js --reporter node_modules/jshint-stylish/stylish.js",
     "test-mocha-watch": "NODE_ENV=test mocha --watch --harmony ./src/**/*.spec.js"
-  }
+  },
+  "keywords": [
+    "backend for castlery assessment"
+  ],
+  "author": "jovi",
+  "license": "ISC",
+  "description": ""
 }
