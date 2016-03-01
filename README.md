@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This project is for demo full stack skill set of javascript, build on **Koa**, **Angularjs** and other 3r []d party libraries. 
+This project is for demo full stack skill set of javascript, build on **Koa**, **Angularjs** and other 3r [ ]d party libraries. 
 
 Target to provide a REST service and SPA portal.
 
@@ -36,34 +36,34 @@ $ npm run local
 ```
 
 #### Features breakdown
-  - []  System 
-    - [x] Framework  **(koa)**
-    - [x] Data access layer **done (Mysql+Sequelize)**
+  - [ ]  System 
+    - [x] Framework 
+    - [x] Data access layer 
     - [x] Url schema
-    - [] History
-        - [] version field in model
+    - [ ] History
+        - [ ] version field in model
      
- - [] REST Api
-      - [] POST
-          - [x] File upload **done**
-          - [] File S3 Storage
-          - [] Generate preview
-              - [] Image: thumbnail as request
-              - [] PDF: Convert current page to image as request
-      - [x] PUT **done**
+ - [ ] REST Api
+      - [ ] POST
+          - [x] File upload 
+          - [ ] File S3 Storage
+          - [ ] Generate preview
+              - [ ] Image: thumbnail as request
+              - [ ] PDF: Convert current page to image as request
+      - [x] PUT 
       - [x] GET 
-          - [x] Filter **done**
-          - [x] Pagination **done**
-          - [x] Sort **done**
-          - [] Full text search
-      - [x] Delete **done**
+          - [x] Filter 
+          - [x] Pagination 
+          - [x] Sort 
+          - [ ] Full text search
+      - [x] Delete 
  
- - [] Authentication
-     - [] Third party authentication integration
-     - [] User access control middleware
+ - [ ] Authentication
+     - [ ] Third party authentication integration
+     - [ ] User access control middleware
     
- - [] Deployment
-      - [] Script to deploy
+ - [ ] Deployment
+      - [ ] Script to deploy
 
 
 
@@ -78,10 +78,10 @@ $ gulp webserver
 ```
  
  - [x] System
-      - [x] Framework **done (angular1.4)**
-      - [x] Data persistent **done (simple implement)**
-      - [x] Route schema **done**
-      - [x] Build script **done**
+      - [x] Framework 
+      - [x] Data persistent 
+      - [x] Route schema 
+      - [x] Build script 
  
- - [] Data
-      - [] Models
+ - [ ] Data
+      - [ ] Models
