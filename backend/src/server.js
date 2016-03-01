@@ -16,6 +16,7 @@ const app = require('koa')();
 
 require('./config/koa')(app);
 require('koa-qs')(app, 'first');
+require('./middleware/cobody')(app);
 require('./middleware/multipart')(app);
 
 require('./config/routes')(app);

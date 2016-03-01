@@ -52,7 +52,7 @@ module.exports = function (app) {
                 const m = meter();
                 let stream = fs.createWriteStream(tmpPath);
                 part.pipe(m).pipe(stream).on('finish', ()=> {
-                    resolve({fileSize: m.bytes, tmpPath: tmpPath});
+                    resolve({fileSize: m.bytes, storedFileName: tmpPath});
                 });
             });
 

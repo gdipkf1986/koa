@@ -34,8 +34,14 @@ Object.assign(exports, {
     }
     ,
     get: function*(next) {
+
+        const result = yield models.MediaDoc.findById(parseInt(this.params.id));
+
         this.status = 200;
-        this.body = {};
+        this.body = {
+            success: true,
+            payload: result
+        };
         yield next;
     }
     ,
@@ -51,7 +57,7 @@ Object.assign(exports, {
             const meta = files[originalFileName];
             const inst = yield models.MediaDoc.create({
                 originalFileName: originalFileName,
-                storedFileName: meta.tmpPath,
+                storedFileName: meta.storedFileName,
                 fileSize: meta.fileSize
             });
             const result = {};
@@ -62,13 +68,40 @@ Object.assign(exports, {
         this.body = body;
         yield next;
 
-    }
-    ,
+    },
     put: function*(next) {
+        const id = parseInt(this.params.id);
+        let inst = yield models.MediaDoc.findById(id);
+        if (!inst) {
+            this.status = 404;
+            this.body = {success: false, message: 'invalid id'};
+            yield next;
+            return;
+        }
 
+        let params = {};
+        try {
+            params = yield parse.form(this);
+        } catch (e) {
+        }
+
+        const values = Object.assign(params, {id: id});
+        const files = this.request.files;
+        if (files) {
+            // todo: add history record for this file
+            const firstMeta = files[Object.keys(files)[0]];
+            Object.assign(values, firstMeta);
+        }
+        let results = yield inst.update(values);
+        this.status = 200;
+        this.body = inst.toJSON();
+        yield next;
     }
     ,
     destroy: function*(next) {
-
+        const id = parseInt(this.params.id);
+        const deletedNum = yield models.MediaDoc.destroy({where: {id: id}});
+        this.status = deletedNum > 0 ? 200 : 400;
+        yield next;
     }
 });
