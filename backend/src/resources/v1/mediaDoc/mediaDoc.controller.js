@@ -19,6 +19,8 @@ Object.assign(exports, {
                 query.where = ['originalFileName like ?', '%' + params[key] + '%'];
             }
         }
+
+        query.order = [['id', 'DESC']];
         const results = yield models.MediaDoc.findAndCount(query);
         this.status = 200;
         const payload = {};
