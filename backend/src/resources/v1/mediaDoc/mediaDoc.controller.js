@@ -1,11 +1,47 @@
 'use strict';
 
 const parse = require('co-body');
-
+const config = require('../../../config/environment');
 const models = require('../../../models');
+const s3 = require('s3');
+
+const amazonS3Client = s3.createClient({
+    multipartUploadThreshold: 20971520, // 20 MB
+    multipartUploadSize: 15728640, // 15 MB
+    s3Options: {
+        accessKeyId: config.s3.accessKeyId,
+        secretAccessKey: config.s3.secretKey
+    }
+});
+
+function* uploadToS3(filePath) {
+    return new Promise((resolve, reject)=> {
+        // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
+        const uploader = amazonS3Client.uploadFile({
+            localFile: 'some/local/file',
+            s3Params: {
+                Bucket: config.s3.bucket,
+                Key: filePath,
+                ACL: 'public-read',
+                Body: filePath
+            }
+        });
+
+        uploader.on('end', function() {
+            console.log(arguments);
+            resolve(arguments);
+        });
+
+        uploader.on('error', function() {
+            console.log(arguments);
+            reject(arguments);
+        });
+
+    });
+}
 
 Object.assign(exports, {
-    list: function* (next) {
+    list: function*(next) {
         const query = {limit: 20, offset: 0, 'filename': null};
         const params = this.query;
         for (let key in query) {
@@ -37,7 +73,7 @@ Object.assign(exports, {
         yield next;
     }
     ,
-    get: function* (next) {
+    get: function*(next) {
 
         const result = yield models.MediaDoc.findById(parseInt(this.params.id));
         if (result) {
@@ -54,7 +90,7 @@ Object.assign(exports, {
 
         yield next;
     },
-    post: function* (next) {
+    post: function*(next) {
         const files = this.request.files;
         if (!files) {
             this.status = 400;
@@ -62,13 +98,18 @@ Object.assign(exports, {
             return yield next;
         }
         const body = {success: true, payload: []};
+
+
         for (let originalFileName in files) {
             const meta = files[originalFileName];
+            const s3Result = yield uploadToS3(meta.storedFileName);
+
             const inst = yield models.MediaDoc.create({
                 originalFileName: originalFileName,
                 storedFileName: meta.storedFileName,
                 fileSize: meta.fileSize
             });
+
             const result = {};
             result[originalFileName] = inst.toJSON();
             body.payload.push(result);
@@ -78,7 +119,7 @@ Object.assign(exports, {
         yield next;
 
     },
-    put: function* (next) {
+    put: function*(next) {
         const id = parseInt(this.params.id);
         let inst = yield models.MediaDoc.findById(id);
         if (!inst) {
@@ -103,7 +144,7 @@ Object.assign(exports, {
         yield next;
     }
     ,
-    destroy: function* (next) {
+    destroy: function*(next) {
         const id = parseInt(this.params.id);
         const deletedNum = yield models.MediaDoc.destroy({where: {id: id}});
         this.status = deletedNum > 0 ? 200 : 400;

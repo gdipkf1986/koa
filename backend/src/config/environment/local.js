@@ -9,5 +9,10 @@ module.exports = {
         username: 'root',
         password: null,
         'dialect': 'mysql'
+    },
+    s3: {
+        secretKey: 'YYRr22tyFpypWheOV9gyYtw+W8AVbjejwzX6AhNu',
+        bucket: 'castlery',
+        accessKeyId: 'AKIAIZWZRBSYUXLEHVFQ'
     }
 };
