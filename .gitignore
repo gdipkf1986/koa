@@ -28,4 +28,3 @@ testem.log
 Vagrantfile
 
 # uploads
-/backend/uploaded/*
