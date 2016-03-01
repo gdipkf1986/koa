@@ -1,0 +1,35 @@
+<div id="apps" xmlns="http://www.w3.org/1999/html">
+  <form role="form" name="mediaDocList" id="mediaDocList">
+    <div style="text-align: right">
+      <div class="btn btn-danger" style="margin: 0 0 20px 0" ngf-select ng-model="files" ngf-multiple="true">Upload New
+        Files
+      </div>
+    </div>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th style="width:40px;">ID</th>
+        <th style="width:300px;">File Name</th>
+        <th style="width:130px;">File Size</th>
+        <th>Description</th>
+        <th style="width:100px;">Operation</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr ng-repeat="m in mediaDocs track by $index" ng-class="{processing: currentDoc.id===m.id}">
+        <td>{{m.id}}</td>
+        <td>{{m.originalFileName}}</td>
+        <td>{{m.fileSize}}</td>
+        <td>
+          <div contenteditable="true" ng-blur="update(m)" ng-model="m.description" strip-br="true" strip-tags="true"
+               placeholder="Click to edit, blur to save"></div>
+        </td>
+        <td><input type="button" ngf-select ng-model="file" ngf-multiple="false"
+                   class="btn btn-primary btn-sm" value="Update file"></td>
+      </tr>
+
+      </tbody>
+    </table>
+  </form>
+
+</div>

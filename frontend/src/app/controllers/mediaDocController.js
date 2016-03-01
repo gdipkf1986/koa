@@ -4,7 +4,7 @@
 import {log} from '../utils/dev';
 import BasicController from './basicController'
 
-export default class AppController extends BasicController {
+export default class MediaDocController extends BasicController {
     constructor($scope) {
         super(...arguments);
 
@@ -13,16 +13,12 @@ export default class AppController extends BasicController {
 
         this.load();
 
-        this.methodToScope(['active', 'update']);
+        this.methodToScope(['active', 'update', 'uploadNew']);
 
     }
 
     active(id) {
-        //const app = this.store.peek('app', id);
-        //if (app.users) {
-        //    app.bindUsers = app.users.map(uid=>this.store.peek('user', uid.id || uid));
-        //}
-        //this.$scope.app = app;
+
     }
 
     load() {
@@ -31,13 +27,12 @@ export default class AppController extends BasicController {
         })
     }
 
-    update(appId) {
-        const app = this.$scope.app;
-        this.store.save(app).then(()=> {
-            log('app saved')
-        }, ()=> {
-            log('app saving failed')
-        });
+    uploadNew() {
+
+    }
+
+    update(mediaDoc) {
+        console.log(mediaDoc.id);
     }
 
 }

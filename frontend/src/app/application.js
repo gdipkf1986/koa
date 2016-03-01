@@ -3,6 +3,7 @@ import router from 'angular-ui-router';
 import stateHelper from 'angular-ui-router.statehelper'
 import ngResource from 'angular-resource';
 import ngTagsInput from 'ng-tags-input';
+import ngFileUpload from 'ng-file-upload';
 
 import {log} from './utils/dev';
 import register from './utils/register';
@@ -12,7 +13,7 @@ import mediaDocController from './controllers/mediaDocController';
 
 log('defining ', ApplicationName);
 const application = angular
-    .module(ApplicationName, [router, 'ui.router.stateHelper', 'ngResource', 'ngTagsInput'])
+    .module(ApplicationName, [router, 'ui.router.stateHelper', 'ngResource', 'ngTagsInput', 'ngFileUpload'])
     .run(['$rootScope', '$urlRouter', ($rootScope, $urlRouter)=> {
 
         log(ApplicationName + ' running');
