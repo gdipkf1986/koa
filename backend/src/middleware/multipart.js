@@ -45,16 +45,21 @@ module.exports = function (app) {
         let part = null;
         const files = [];
 
+        function* read(part) {
+            return new Promise((resolve)=> {
+                const tmpName = Math.random().toString();
+                const tmpPath = path.join(os.tmpdir(), tmpName);
+                const m = meter();
+                let stream = fs.createWriteStream(tmpPath);
+                part.pipe(m).pipe(stream).on('finish', ()=> {
+                    resolve({fileSize: m.bytes, tmpPath: tmpPath});
+                });
+            });
+
+        }
+
         while (part = yield parts) {
-            const tmpName = Math.random().toString();
-            const tmpPath = path.join(os.tmpdir(), tmpName);
-            let stream = fs.createWriteStream(tmpPath);
-            const filename = part.filename;
-            part.pipe(stream);
-            files[filename] = {
-                tmpPath: tmpPath,
-                fileSize: fs.statSync(tmpPath).size
-            };
+            files[part.filename] = yield read(part);
         }
         this.request.files = files;
         yield next;
