@@ -1,7 +1,7 @@
 'use strict';
 
 
-const app = require('../../server');
+const app = require('../../../server');
 const request = require('supertest').agent(app.listen());
 
 const expect = require('chai').expect;

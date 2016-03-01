@@ -2,7 +2,7 @@
 
 const parse = require('co-body');
 
-const models = require('../../models');
+const models = require('../../../models');
 
 Object.assign(exports, {
     list: function* (next) {
