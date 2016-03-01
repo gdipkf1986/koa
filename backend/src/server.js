@@ -15,6 +15,7 @@ const models = require('./models');
 const app = require('koa')();
 
 require('./config/koa')(app);
+require('koa-qs')(app, 'first');
 require('./middleware/multipart')(app);
 
 require('./config/routes')(app);
@@ -24,7 +25,7 @@ if (!module.parent) {
     co(function*() {
         const conn = yield models.conn.sync();
         if (conn) {
-            app.listen(config.port, config.ip, function() {
+            app.listen(config.port, config.ip, function () {
                 console.log('Koa server listening on %d, in %s mode', config.port, config.env);
             });
         } else {

@@ -1,35 +1,42 @@
 'use strict';
 
-const os = require('os');
-const parse = require('co-busboy');
-const fs = require('fs');
-const path = require('path');
-const meter = require('stream-meter');
+const parse = require('co-body');
 
 const models = require('../../models');
 
-const list = ()=> [];
-const allowedExt = ['jpg'];
-
-const isValidFile = (fileOriName, fileStream)=> true;
-
-const isValidCsrf = (ctx, csrf) => true;
-
 Object.assign(exports, {
-    index: function*(next) {
-
-    },
     list: function*(next) {
+        const query = {limit: 20, offset: 0, 'filename': null};
+        const params = this.query;
+        for (let key in query) {
+            if (!params.hasOwnProperty(key)) {
+                continue;
+            }
+            if ((key === 'limit' || key === 'offset')) {
+                query[key] = parseInt(params[key]) || query[key];
+            }
+            if (key === 'filename') {
+                query.where = ['originalFileName like ?', '%' + params[key] + '%'];
+            }
+        }
+        const results = yield models.MediaDoc.findAndCount(query);
         this.status = 200;
-        this.body = list();
+        this.body = {
+            success: true,
+            count: results.count,
+            payload: results.rows
+        }
+        ;
         yield next;
-    },
+    }
+    ,
     get: function*(next) {
         this.status = 200;
         this.body = {};
         yield next;
-    },
-    post: function*() {
+    }
+    ,
+    post: function*(next) {
         const files = this.request.files;
         if (!files) {
             this.status = 400;
@@ -48,11 +55,14 @@ Object.assign(exports, {
         }
         this.status = 200;
         this.body = body;
+        yield next;
 
-    },
+    }
+    ,
     put: function*(next) {
 
-    },
+    }
+    ,
     destroy: function*(next) {
 
     }
