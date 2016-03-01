@@ -1,0 +1,45 @@
+html, body {
+    height: 100%;
+}
+
+$main-color: #f8f8f8;
+
+#jvloading {
+    position: absolute;
+    bottom: 50px;
+    left: 50px;
+    padding: 20px;
+    background-color: #444;
+    color: #fff;
+    display: none;
+}
+
+#messager {
+    background-color: #efefef;
+    padding: 10px;
+    box-shadow: 0 10px 30px #ccc;
+}
+
+.ng-invalid.ng-touched {
+    background-color: #FA787E;
+}
+
+.inactive_row a, .inactive_row {
+    color: #ccc !important;
+}
+
+.selected_row, .selected_row a {
+    background-color: #ebebeb !important;
+    color: #000 !important;
+}
+
+$side_nav_width: 300px;
+
+#main_container {
+    width: 100%;
+    padding: 30px;
+}
+
+.bootstrap-tagsinput .tag {
+    font-size: 14px;
+}
