@@ -5,8 +5,9 @@ module.exports = {
     db: {
         host: 'localhost',
         port: '3306',
-        dbName: 'castleryProject',
-        user: 'root',
-        password: ''
+        database: 'castleryProject',
+        username: 'root',
+        password: null,
+        'dialect': 'mysql'
     }
 };

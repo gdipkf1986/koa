@@ -5,7 +5,6 @@ const fs = require('fs');
 const path = require('path');
 const meter = require('stream-meter');
 
-const ModelDoc = require('./mediaDoc.model');
 
 const list = ()=> [];
 
@@ -37,6 +36,8 @@ Object.assign(exports, {
         const parts = parse(this);
         let part = null;
 
+        const ctrl = this;
+
         while (part = yield parts) {
             const targetName = Math.random().toString();
             const m = meter();
@@ -47,13 +48,18 @@ Object.assign(exports, {
                 const fileSize = m.bytes;
                 const targetPath = stream.path;
                 if (isValidFile(fileOriName, mime, fileSize)) {
-
+                    ctrl.body = {};
+                    const conn = ctrl.conn;
+                    const a = 1;
                 } else {
-                    return;
+                    ctrl.status = 400;
+                    ctrl.body = {'message': 'invalid file'}
                 }
             });
             console.log('uploading %s -> %s', part.filename, stream.path);
         }
+
+        yield next;
 
     },
     put: function*(next) {
