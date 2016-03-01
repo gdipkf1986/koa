@@ -18,8 +18,11 @@ require('./config/koa')(app);
 require('koa-qs')(app, 'first');
 require('./middleware/cobody')(app);
 require('./middleware/multipart')(app);
+require('./middleware/crossDomain')(app);
 
 require('./config/routes')(app);
+
+
 
 // Start server
 if (!module.parent) {

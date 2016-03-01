@@ -5,7 +5,7 @@ const parse = require('co-body');
 const models = require('../../models');
 
 Object.assign(exports, {
-    list: function*(next) {
+    list: function* (next) {
         const query = {limit: 20, offset: 0, 'filename': null};
         const params = this.query;
         for (let key in query) {
@@ -21,31 +21,38 @@ Object.assign(exports, {
         }
         const results = yield models.MediaDoc.findAndCount(query);
         this.status = 200;
+        const payload = {};
+        payload[models.MediaDoc.name] = results.rows.map(r=> {
+            delete r.storedFileName;
+            return r;
+        });
         this.body = {
             success: true,
             count: results.count,
-            payload: results.rows.map(r=> {
-                delete r.storedFileName;
-                return r;
-            })
+            payload: payload
         }
         ;
         yield next;
     }
     ,
-    get: function*(next) {
+    get: function* (next) {
 
         const result = yield models.MediaDoc.findById(parseInt(this.params.id));
+        if (result) {
+            this.status = 200;
+            const payload = {};
+            payload[models.MediaDoc.name] = [result];
+            this.body = {
+                success: true,
+                payload: payload
+            };
+        } else {
+            this.status = 404;
+        }
 
-        this.status = 200;
-        this.body = {
-            success: true,
-            payload: result
-        };
         yield next;
-    }
-    ,
-    post: function*(next) {
+    },
+    post: function* (next) {
         const files = this.request.files;
         if (!files) {
             this.status = 400;
@@ -69,7 +76,7 @@ Object.assign(exports, {
         yield next;
 
     },
-    put: function*(next) {
+    put: function* (next) {
         const id = parseInt(this.params.id);
         let inst = yield models.MediaDoc.findById(id);
         if (!inst) {
@@ -79,13 +86,7 @@ Object.assign(exports, {
             return;
         }
 
-        let params = {};
-        try {
-            params = yield parse.form(this);
-        } catch (e) {
-        }
-
-        const values = Object.assign(params, {id: id});
+        const values = Object.assign(this.request.body, {id: id});
         const files = this.request.files;
         if (files) {
             // todo: add history record for this file
@@ -94,11 +95,13 @@ Object.assign(exports, {
         }
         let results = yield inst.update(values);
         this.status = 200;
-        this.body = inst.toJSON();
+        const payload = {};
+        payload[models.MediaDoc.name] = [inst.toJSON()];
+        this.body = {success: true, payload: payload};
         yield next;
     }
     ,
-    destroy: function*(next) {
+    destroy: function* (next) {
         const id = parseInt(this.params.id);
         const deletedNum = yield models.MediaDoc.destroy({where: {id: id}});
         this.status = deletedNum > 0 ? 200 : 400;

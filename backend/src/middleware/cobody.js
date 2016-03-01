@@ -6,13 +6,13 @@
 const parse = require('co-body');
 
 
-module.exports = function* (app) {
+module.exports = function (app) {
 
     app.use(function*(next) {
         try {
             this.request.body = yield parse.form(this);
         } catch (e) {
-            console.log('parse body failed');
+            this.request.body = {};
         }
         yield next;
     })

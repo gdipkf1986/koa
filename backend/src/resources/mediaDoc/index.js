@@ -10,6 +10,4 @@ router
     .delete('/:id', controller.destroy)
     .get('/:id', controller.get);
 
-
-//router.get('/', controller.list);
 module.exports = router.routes();
