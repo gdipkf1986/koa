@@ -41,9 +41,9 @@ $ npm run local
     - [x] Data access layer 
     - [x] Url schema
     - [ ] History
-        - [ ] version field in model
-     
- - [ ] REST Api
+      - [ ] version field in model
+  
+  - [ ] REST Api
       - [ ] POST
           - [x] File upload 
           - [ ] File S3 Storage
@@ -52,18 +52,18 @@ $ npm run local
               - [ ] PDF: Convert current page to image as request
       - [x] PUT 
       - [x] GET 
-          - [x] Filter 
-          - [x] Pagination 
-          - [x] Sort 
-          - [ ] Full text search
+        - [x] Filter 
+        - [x] Pagination 
+        - [x] Sort 
+        - [ ] Full text search
       - [x] Delete 
  
- - [ ] Authentication
-     - [ ] Third party authentication integration
-     - [ ] User access control middleware
+  - [ ] Authentication
+    - [ ] Third party authentication integration
+    - [ ] User access control middleware
     
- - [ ] Deployment
-      - [ ] Script to deploy
+  - [ ] Deployment
+    - [ ] Script to deploy
 
 
 
