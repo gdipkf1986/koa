@@ -13,7 +13,10 @@ const models = require('./models');
 
 // Bootstrap server
 const app = require('koa')();
+
 require('./config/koa')(app);
+require('./middleware/multipart')(app);
+
 require('./config/routes')(app);
 
 // Start server
@@ -25,7 +28,7 @@ if (!module.parent) {
                 console.log('Koa server listening on %d, in %s mode', config.port, config.env);
             });
         } else {
-            console.error('connect is not able to establed, please check configuration');
+            console.log('connect is not able to established, please check configuration');
         }
     })
 }

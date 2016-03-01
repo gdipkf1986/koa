@@ -1,19 +1,23 @@
 'use strict';
+
 const os = require('os');
 const parse = require('co-busboy');
 const fs = require('fs');
 const path = require('path');
 const meter = require('stream-meter');
+
 const models = require('../../models');
 
 const list = ()=> [];
+const allowedExt = ['jpg'];
 
-const isValidFile = (fileOriName, mime, fileSize)=> true;
+const isValidFile = (fileOriName, fileStream)=> true;
+
+const isValidCsrf = (ctx, csrf) => true;
 
 Object.assign(exports, {
     index: function*(next) {
-        this.status = 200;
-        this.body = [];
+
     },
     list: function*(next) {
         this.status = 200;
@@ -25,39 +29,25 @@ Object.assign(exports, {
         this.body = {};
         yield next;
     },
-    post: function*(next) {
-
-        if (!this.request.is('multipart/*')) {
+    post: function*() {
+        const files = this.request.files;
+        if (!files) {
             this.status = 400;
-            this.body = {message: 'unknown file'};
+            this.body = {'message': 'no file uploaded'};
             return yield next;
         }
-
-        const parts = parse(this);
-        let part = null;
-
-        const ctrl = this;
-
-        while (part = yield parts) {
-            const targetName = Math.random().toString();
-            const m = meter();
-            const stream = fs.createWriteStream(path.join(path.join(__dirname, '..', '..', '..', 'uploaded'), targetName));
-            const fileOriName = part.filename;
-            const mime = part.mime;
-            part.pipe(m).pipe(stream).on('finish', ()=> {
-                const fileSize = m.bytes;
-                const targetPath = stream.path;
-                if (isValidFile(fileOriName, mime, fileSize)) {
-                    ctrl.body = {};
-                } else {
-                    ctrl.status = 400;
-                    ctrl.body = {'message': 'invalid file'}
-                }
+        const body = {success: true, payload: []};
+        for (let originalFileName in files) {
+            const meta = files[originalFileName];
+            const inst = yield models.MediaDoc.create({
+                originalFileName: originalFileName,
+                storedFileName: meta.tmpPath,
+                fileSize: meta.fileSize
             });
-            console.log('uploading %s -> %s', part.filename, stream.path);
+            body.payload.push(inst.toJSON());
         }
-
-        yield next;
+        this.status = 200;
+        this.body = body;
 
     },
     put: function*(next) {
