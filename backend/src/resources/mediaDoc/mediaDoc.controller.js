@@ -24,7 +24,10 @@ Object.assign(exports, {
         this.body = {
             success: true,
             count: results.count,
-            payload: results.rows
+            payload: results.rows.map(r=> {
+                delete r.storedFileName;
+                return r;
+            })
         }
         ;
         yield next;
@@ -51,7 +54,9 @@ Object.assign(exports, {
                 storedFileName: meta.tmpPath,
                 fileSize: meta.fileSize
             });
-            body.payload.push(inst.toJSON());
+            const result = {};
+            result[originalFileName] = inst.toJSON();
+            body.payload.push(result);
         }
         this.status = 200;
         this.body = body;
