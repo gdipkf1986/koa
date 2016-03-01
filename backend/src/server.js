@@ -19,7 +19,7 @@ require('./config/routes')(app);
 // Start server
 if (!module.parent) {
     co(function*() {
-        const conn = yield models.sequelize.sync();
+        const conn = yield models.conn.sync();
         if (conn) {
             app.listen(config.port, config.ip, function() {
                 console.log('Koa server listening on %d, in %s mode', config.port, config.env);
@@ -28,8 +28,6 @@ if (!module.parent) {
             console.error('connect is not able to establed, please check configuration');
         }
     })
-
-
 }
 
 // Expose app

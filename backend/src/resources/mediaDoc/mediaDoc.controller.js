@@ -4,7 +4,7 @@ const parse = require('co-busboy');
 const fs = require('fs');
 const path = require('path');
 const meter = require('stream-meter');
-
+const models = require('../../models');
 
 const list = ()=> [];
 
@@ -49,8 +49,6 @@ Object.assign(exports, {
                 const targetPath = stream.path;
                 if (isValidFile(fileOriName, mime, fileSize)) {
                     ctrl.body = {};
-                    const conn = ctrl.conn;
-                    const a = 1;
                 } else {
                     ctrl.status = 400;
                     ctrl.body = {'message': 'invalid file'}
