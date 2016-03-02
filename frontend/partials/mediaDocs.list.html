@@ -1,9 +1,14 @@
 <div id="apps" xmlns="http://www.w3.org/1999/html">
   <form role="form" name="mediaDocList" id="mediaDocList">
     <div style="text-align: right">
-      <div class="btn btn-danger" style="margin: 0 0 20px 0" ngf-select ng-model="files" ngf-multiple="true">Upload New
-        Files
-      </div>
+      <button
+        type="file"
+        class="btn btn-danger"
+        style="margin: 0 0 20px 0"
+        ngf-multiple="true"
+        ngf-select="uploadFiles($file, $invalidFiles)"
+        ngf-max-size="1MB">Upload New Files (maximum 1MB)
+      </button>
     </div>
     <table class="table table-hover">
       <thead>
@@ -11,6 +16,7 @@
         <th style="width:40px;">ID</th>
         <th style="width:300px;">File Name</th>
         <th style="width:130px;">File Size</th>
+        <th>Preview</th>
         <th>Description</th>
         <th style="width:100px;">Operation</th>
       </tr>
@@ -21,11 +27,20 @@
         <td>{{m.originalFileName}}</td>
         <td>{{m.fileSize}}</td>
         <td>
+          <div class="preview" style="background-image: url({{m.storedFileName}})"></div>
+        </td>
+        <td>
           <div contenteditable="true" ng-blur="update(m)" ng-model="m.description" strip-br="true" strip-tags="true"
                placeholder="Click to edit, blur to save"></div>
         </td>
-        <td><input type="button" ngf-select ng-model="file" ngf-multiple="false"
-                   class="btn btn-primary btn-sm" value="Update file"></td>
+        <td>
+          <button type="file"
+                  ngf-multiple="false"
+                  ngf-max-size="1MB"
+                  ngf-select="uploadFiles($file, $invalidFiles, m)"
+                  class="btn btn-primary btn-sm"/>
+          Update file</button>
+        </td>
       </tr>
 
       </tbody>

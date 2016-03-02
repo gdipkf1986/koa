@@ -31,12 +31,15 @@ import babelify from 'babelify';
 import replace from 'gulp-replace';
 import rename from 'gulp-rename';
 import webserver from 'gulp-webserver';
+import ngAnnotate from 'gulp-ng-annotate';
 
 const argv = args.argv;
 console.log(argv);
 
 
-const libs = Object.keys(require('./package.json').dependencies);
+const libs = Object.keys(require('./package.json').dependencies).filter(lib=> {
+    return true;
+});
 
 
 function calcMd5(file, slice) {
@@ -99,6 +102,11 @@ gulp.task('app_js', function () {
             return true;
         })
         .pipe(source('app.js'))
+        .pipe(ngAnnotate({
+            remove: true,
+            add: true,
+            single_quotes: true
+        }))
         .pipe(buffer())
         .pipe(sourceMaps.init({loadMaps: true}))
         //.pipe(uglify())

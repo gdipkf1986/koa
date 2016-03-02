@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This project is for demo full stack skill set of javascript, build on **Koa**, **Angularjs** and other 3r [ ]d party libraries. 
+This project is for demo full stack skill set of javascript, build on **Koa**, **Angularjs** and other 3rd party libraries. 
 
 Target to provide a REST service and SPA portal.
 
@@ -22,7 +22,8 @@ Target to provide a REST service and SPA portal.
 ### Basic Concept
 * Agnostic Frontend
 * REST API
-* Isomorphic
++ Isomorphic
+ - Isomorphic model https://github.com/geddy/model
 
 
 ### Backend

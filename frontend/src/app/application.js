@@ -9,7 +9,6 @@ import {log} from './utils/dev';
 import register from './utils/register';
 import {ApplicationName} from './AppConfig';
 
-import mediaDocController from './controllers/mediaDocController';
 
 log('defining ', ApplicationName);
 const application = angular
@@ -78,7 +77,7 @@ application
                         name: 'mediaDocs'
                         , url: '/mediaDocs'
                         , template: '<ui-view/>'
-                        , controller: mediaDocController
+                        , controller: 'MediaDocController'
                         , children: [{
                             name: 'list'
                             , url: '/'
@@ -148,16 +147,24 @@ log('defined ', ApplicationName);
 
 import store from './services/store'
 import account from './services/account'
+
+import BasicController from './controllers/basicController';
+import MediaDocController from './controllers/mediaDocController';
+
 import BasicModel from './models/basicModel';
 import MediaDocModel from './models/mediaDocModel';
 import UserModel from './models/userModel';
 
+
 register().service('store', store);
 register().service('account', account);
+
+register().controller('BasicController', BasicController);
+register().controller('MediaDocController', MediaDocController);
+
 register().factory('BasicModel', BasicModel);
 register().factory('MediaDocModel', MediaDocModel);
 register().factory('UserModel', UserModel);
-register().controller('mediaDocController', mediaDocController);
 
 
 export default application;

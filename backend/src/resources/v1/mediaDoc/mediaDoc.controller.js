@@ -5,6 +5,7 @@ const config = require('../../../config/environment');
 const models = require('../../../models');
 const s3 = require('s3');
 
+
 const MEDIA_DOC_STATUS = require('../../../models/CONST_MEDIADOC_STATUS');
 
 const amazonS3Client = s3.createClient({
@@ -32,7 +33,7 @@ function* uploadToS3(meta) {
 
         uploader.on('end', function () {
             // todo: delete local temp file once file uploaded to s3
-            resolve(`https://s3-ap-southeast-1.amazonaws.com/castlery/${key}`);
+            resolve(`http://s3-ap-southeast-1.amazonaws.com/castlery/${key}`);
         });
 
         uploader.on('error', function () {

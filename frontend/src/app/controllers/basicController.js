@@ -3,7 +3,9 @@
  */
 import {log} from '../utils/dev';
 
+
 export default class BasicController {
+    /*@ngInject*/
     constructor($scope, store, $state, account) {
         this.$scope = $scope;
         this.store = store;
@@ -11,7 +13,6 @@ export default class BasicController {
         this.account = account;
         this.auth();
         $scope.store = store;
-
         this.methodToScope(['load']);
     }
 
@@ -32,4 +33,6 @@ export default class BasicController {
     }
 }
 
-BasicController.$inject = '$scope, store, $state, account'.split(',').map(i=>i.trim());
+
+//injector.$inject = '$scope, store, $state, account'.split(',').map(i=>i.trim());
+
