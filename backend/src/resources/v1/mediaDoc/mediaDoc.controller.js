@@ -5,7 +5,7 @@ const config = require('../../../config/environment');
 const models = require('../../../models');
 const s3 = require('s3');
 
-const status = require('../../../models/CONST_MEDIADOC_STATUS');
+const MEDIA_DOC_STATUS = require('../../../models/CONST_MEDIADOC_STATUS');
 
 const amazonS3Client = s3.createClient({
     multipartUploadThreshold: 20971520, // 20 MB
@@ -30,11 +30,12 @@ function* uploadToS3(meta) {
             }
         });
 
-        uploader.on('end', function() {
+        uploader.on('end', function () {
+            // todo: delete local temp file once file uploaded to s3
             resolve(`https://s3-ap-southeast-1.amazonaws.com/castlery/${key}`);
         });
 
-        uploader.on('error', function() {
+        uploader.on('error', function () {
             reject(null);
         });
 
@@ -115,7 +116,7 @@ Object.assign(exports, {
                 originalFileName: originalFileName,
                 storedFileName: s3Result,
                 fileSize: meta.fileSize,
-                status: status.underReview
+                status: MEDIA_DOC_STATUS.underReview
             });
 
             result[originalFileName] = inst.toJSON();
@@ -160,16 +161,13 @@ Object.assign(exports, {
             this.status = 404;
             this.body = {success: false, message: 'unknown id'}
         } else {
-            let updateResult = yield inst.update({status: status.destroyed});
-            if (updateResult.status === status.destroyed) {
+            let updateResult = yield inst.update({status: MEDIA_DOC_STATUS.destroyed});
+            if (updateResult.status === MEDIA_DOC_STATUS.destroyed) {
                 this.status = 200;
             } else {
                 this.status = 400;
             }
         }
-
-        //const deletedNum = yield models.MediaDoc.destroy({where: {id: id}});
-        //this.status = deletedNum > 0 ? 200 : 400;
         yield next;
     }
 });
