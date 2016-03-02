@@ -5,9 +5,9 @@ const router = require('koa-router')();
 
 router
     .get('/', controller.list)
-    .post('/', controller.post)
-    .put('/:id', controller.put)
-    .delete('/:id', controller.destroy)
-    .get('/:id', controller.get);
+    .post('/', controller.createOrUpdate)
+    .put('/:resourceName', controller.createOrUpdate)
+    .delete('/:resourceName', controller.destroy)
+    .get('/:resourceName', controller.get);
 
 module.exports = router.routes();

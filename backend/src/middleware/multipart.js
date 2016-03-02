@@ -13,7 +13,7 @@ const isValidFile = (fileOriName, fileStream)=> true;
 
 const isValidCsrf = (ctx, csrf) => true;
 
-module.exports = function(app) {
+module.exports = function (app) {
     console.log('multipart inited');
 
     app.use(function*(next) {
@@ -49,12 +49,12 @@ module.exports = function(app) {
 
         function* read(part) {
             return new Promise((resolve)=> {
-                const tmpName = Math.random().toString().replace('.', '') + path.extname(part.filename);
-                const tmpPath = path.join(os.tmpdir(), tmpName);
+                const resourceName = Math.random().toString().replace('.', '');
+                const tmpPath = path.join(os.tmpdir(), resourceName);
                 const m = meter();
                 let stream = fs.createWriteStream(tmpPath);
                 part.pipe(m).pipe(stream).on('finish', ()=> {
-                    resolve({fileSize: m.bytes, storedFileName: tmpPath, hashedName: tmpName});
+                    resolve({fileSize: m.bytes, localTmpPath: tmpPath, resourceName: resourceName});
                 });
             });
 

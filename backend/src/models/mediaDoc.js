@@ -7,13 +7,14 @@ module.exports = function (sequelize, DataTypes) {
     const MediaDoc = sequelize.define('MediaDoc', {
         originalFileName: {type: DataTypes.STRING, allowNull: false},
         fileSize: DataTypes.INTEGER,
+        resourceName: {type: DataTypes.STRING},
         description: DataTypes.STRING,
-        storedFileName: DataTypes.STRING,
+        accessUrl: DataTypes.STRING,
         status: {type: DataTypes.INTEGER, defaultValue: 0},
-        versions: {type: DataTypes.INTEGER, defaultValue: 0}
+        version: {type: DataTypes.INTEGER, defaultValue: 0}
     }, {
         indexes: [{
-            fields: ['originalFileName']
+            fields: ['resourceName']
         }, {
             fields: ['description'] // todo: full text search by MyISAM engine
         }]

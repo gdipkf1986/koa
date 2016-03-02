@@ -12,10 +12,13 @@ Object.assign(exports, {
     },
     auth: function*(next) {
 
+        const cfg = config.s3;
+        delete cfg.secretKey;
+
         this.body = {
             success: true,
             payload: {
-                config: {s3: config.s3}
+                config: {s3: cfg}
             }
         };
         this.status = 200;
