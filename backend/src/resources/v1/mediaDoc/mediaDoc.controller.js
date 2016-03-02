@@ -14,27 +14,26 @@ const amazonS3Client = s3.createClient({
     }
 });
 
-function* uploadToS3(filePath) {
+function* uploadToS3(meta) {
     return new Promise((resolve, reject)=> {
         // See: http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
+        const key = `test/${meta.hashedName}`;
         const uploader = amazonS3Client.uploadFile({
-            localFile: 'some/local/file',
+            localFile: meta.storedFileName,
             s3Params: {
                 Bucket: config.s3.bucket,
-                Key: filePath,
+                Key: key,
                 ACL: 'public-read',
-                Body: filePath
+                Body: meta.storedFileName
             }
         });
 
         uploader.on('end', function() {
-            console.log(arguments);
-            resolve(arguments);
+            resolve(`https://s3-ap-southeast-1.amazonaws.com/castlery/${key}`);
         });
 
         uploader.on('error', function() {
-            console.log(arguments);
-            reject(arguments);
+            reject(null);
         });
 
     });
@@ -102,15 +101,20 @@ Object.assign(exports, {
 
         for (let originalFileName in files) {
             const meta = files[originalFileName];
-            const s3Result = yield uploadToS3(meta.storedFileName);
+            const s3Result = yield uploadToS3(meta);
+            const result = {};
+
+            if (!s3Result) {
+                result[originalFileName] = {id: null};
+                continue;
+            }
 
             const inst = yield models.MediaDoc.create({
                 originalFileName: originalFileName,
-                storedFileName: meta.storedFileName,
+                storedFileName: s3Result,
                 fileSize: meta.fileSize
             });
 
-            const result = {};
             result[originalFileName] = inst.toJSON();
             body.payload.push(result);
         }
