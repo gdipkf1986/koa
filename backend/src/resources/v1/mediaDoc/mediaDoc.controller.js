@@ -95,17 +95,16 @@ Object.assign(exports, {
     },
     createOrUpdate: function*(next) {
         let filesMetaObject = this.request.files;
-        const originalNames = Object.keys(filesMetaObject);
         const resourceName = this.params.resourceName;
         let currentLatestRecord = null;
         if (resourceName) {
 
-            if (originalNames.length > 1) {
-                this.status = 400;
-                this.body = {message: 'only one file allowed'};
-                yield next;
-                return;
-            }
+            //if (originalNames.length > 1) {
+            //    this.status = 400;
+            //    this.body = {message: 'only one file allowed'};
+            //    yield next;
+            //    return;
+            //}
 
             currentLatestRecord = yield models.MediaDoc.find({
                 limit: 1,
@@ -118,38 +117,49 @@ Object.assign(exports, {
                 return;
             }
         }
-        const result = {};
-        const body = {success: true, payload: []};
-        for (let originalFileName in filesMetaObject) {
-            const meta = filesMetaObject[originalFileName];
-            const s3Result = yield uploadToS3(originalFileName, meta);
-            if (!s3Result) {
-                result[resourceName] = {id: null};
-                continue;
+        if (filesMetaObject) {
+            const originalNames = Object.keys(filesMetaObject);
+
+            const body = {success: true, payload: [[], []]};
+            for (let originalFileName in filesMetaObject) {
+                const meta = filesMetaObject[originalFileName];
+                const s3Result = yield uploadToS3(originalFileName, meta);
+                if (!s3Result) {
+                    body.payload[1].push(originalFileName);
+                    continue;
+                }
+
+                const data = {
+                    originalFileName: originalFileName,
+                    fileSize: meta.fileSize,
+                    resourceName: meta.resourceName,
+                    description: '',
+                    accessUrl: s3Result,
+                    status: MEDIA_DOC_STATUS.underReview,
+                    version: 0
+                };
+                if (currentLatestRecord) {
+                    let maxVersionResult = yield models.MediaDoc.max('version');
+                    currentLatestRecord.version = maxVersionResult + 1;
+                    yield currentLatestRecord.save();
+                    data.description = currentLatestRecord.description;
+                    data.resourceName = currentLatestRecord.resourceName;
+                }
+
+                if (this.request.body) {
+                    data.description = this.request.body.description
+                }
+
+                const newInst = yield models.MediaDoc.create(data);
+                body.payload[0].push(newInst.toJSON());
             }
-
-            if (currentLatestRecord) {
-                let maxVersionResult = yield models.MediaDoc.max('version');
-                currentLatestRecord.version = maxVersionResult + 1;
-                yield currentLatestRecord.save();
-            }
-
-            const newResourceName = currentLatestRecord ? currentLatestRecord.resourceName : meta.resourceName;
-            const newInst = yield models.MediaDoc.create({
-                originalFileName: originalFileName,
-                fileSize: meta.fileSize,
-                resourceName: newResourceName,
-                description: currentLatestRecord ? currentLatestRecord.description : '',
-                accessUrl: s3Result,
-                status: MEDIA_DOC_STATUS.underReview,
-                version: 0
-            });
-            result[newResourceName] = newInst.toJSON();
-            body.payload.push(result);
-
+            this.status = 200;
+            this.body = body;
+        } else {
+            yield currentLatestRecord.update({description: this.request.body.description});
+            this.status = 200;
+            this.body = {success: true, payload: currentLatestRecord.toJSON()}
         }
-        this.status = 200;
-        this.body = body;
         yield next;
 
     },

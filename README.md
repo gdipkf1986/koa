@@ -41,8 +41,7 @@ $ npm run local
     - [x] Framework 
     - [x] Data access layer 
     - [x] Url schema
-    - [ ] History
-      - [ ] version field in model
+    - [x] History
   
   - [ ] REST Api
       - [ ] POST
@@ -56,7 +55,7 @@ $ npm run local
         - [x] Filter 
         - [x] Pagination 
         - [x] Sort 
-        - [ ] Full text search
+        - [ ] Full text search, mysql ISAM engine set full text search index
       - [x] Delete 
  
   - [ ] Authentication
