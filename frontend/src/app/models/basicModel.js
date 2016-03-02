@@ -10,40 +10,72 @@ import {registeredModels, symbol_modelData, symbol_modelSchemaCfg, descriptor} f
 
 export default function injector($resource) {
 
+    function setter(obj, key) {
+
+    }
+
     class BasicModel {
 
         constructor(name, data) {
             this[symbol_modelData] = Map(data);
-            this.resource = $resource(`${ApiEndPoint}/${name}s/:id`, {id: '@id'}, {
-                'query': {method: 'GET', isArray: false}
+            this.resource = $resource(`${ApiEndPoint}/${name}s/:id`, {id: ''}, {
+                'query': {method: 'GET', isArray: false},
+                'update': {method: 'PUT', isArray: false}
             });
-
+            this.modelName = name;
             this.store = null;
 
             return this;
         }
 
+        get(field) {
+            return this[symbol_modelData].get(field);
+        }
+
+        set(field, value) {
+            const schema = this[symbol_modelSchemaCfg];
+            if (schema.has(field)) {
+                this[symbol_modelData] = this[symbol_modelData].set(field, value);
+            }
+            return this;
+        }
+
+        setData(data) {
+            const schema = this[symbol_modelSchemaCfg];
+            Object.keys(data).filter(k=>schema.has(k)).forEach(k=>this.set(k, data[k]));
+            return this;
+        }
 
         query() {
             return this.resource.query().$promise;
         }
 
+        save() {
+            const id = this.get('id');
+            if (id) {
+                return this.resource.update({id: this.get('resourceName')}, this.toJson()).$promise;
+            } else {
+                return this.resource.save().$promise;
+
+            }
+        }
+
 
         toJson() {
             const schema = this[symbol_modelSchemaCfg];
-            const json = this[symbol_modelData].toJSON();
+            const data = this[symbol_modelData].toJSON();
 
             for (let [key,type] of schema.entries()) {
-                if (!json.hasOwnProperty(key)) {
+                if (!data.hasOwnProperty(key)) {
                     continue;
                 }
                 if (typeof type === 'object' && type.relationship === 'hasMany') {
                     const keyInStore = key.replace(/s$/g, '');
-                    const val = json[key];
-                    json[key] = val.map(v=> this.store.peek(keyInStore, v).toJson())
+                    const val = data[key];
+                    data[key] = val.map(v=> this.store.peek(keyInStore, v).toJson())
                 }
             }
-            return json;
+            return data;
         }
 
         toString() {
@@ -53,7 +85,8 @@ export default function injector($resource) {
         setSchema(schema) {
             this[symbol_modelSchemaCfg] = Map(schema);
             Object.keys(schema).forEach(k=> {
-                Object.defineProperty(this, k, descriptor(schema[k]));
+                const desc = descriptor(schema[k]);
+                Object.defineProperty(this, k, desc);
             });
 
         }

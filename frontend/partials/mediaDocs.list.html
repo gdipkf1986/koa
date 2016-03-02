@@ -2,9 +2,12 @@
   <form role="form" name="mediaDocList" id="mediaDocList">
     <div style="text-align: right">
       <button
+
         type="file"
         class="btn btn-danger"
         style="margin: 0 0 20px 0"
+        multiple
+        ng-disabled="processing && !processing.id"
         ngf-multiple="true"
         ngf-select="uploadFiles($file, $invalidFiles)"
         ngf-max-size="1MB">Upload New Files (maximum 1MB)
@@ -13,24 +16,30 @@
     <table class="table table-hover">
       <thead>
       <tr>
-        <th style="width:40px;">ID</th>
+        <th style="width:100px;">ID</th>
         <th style="width:300px;">File Name</th>
         <th style="width:130px;">File Size</th>
-        <th>Preview</th>
+        <th class="preview-header">Preview</th>
         <th>Description</th>
         <th style="width:100px;">Operation</th>
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="m in mediaDocs track by $index" ng-class="{processing: currentDoc.id===m.id}">
-        <td>{{m.id}}</td>
+      <tr ng-repeat="m in mediaDocs track by $index">
+        <td>{{m.resourceName}}</td>
         <td>{{m.originalFileName}}</td>
         <td>{{m.fileSize}}</td>
         <td>
-          <div class="preview" style="background-image: url({{m.storedFileName}})"></div>
+          <div class="preview" style="background-image: url({{m.accessUrl}})"></div>
         </td>
         <td>
-          <div contenteditable="true" ng-blur="update(m)" ng-model="m.description" strip-br="true" strip-tags="true"
+          <div class="description"
+               contenteditable="true"
+               ng-class="{'processing':processing && processing.id === m.id}"
+               ng-blur="update(m)"
+               ng-model="m.description"
+               strip-br="true"
+               strip-tags="true"
                placeholder="Click to edit, blur to save"></div>
         </td>
         <td>

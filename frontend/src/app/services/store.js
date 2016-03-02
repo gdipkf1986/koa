@@ -21,10 +21,23 @@ function injector(MediaDocModel, UserModel) {
             };
         }
 
+        addToCache(inst) {
+            const modelName = inst.modelName;
+            if (!this._cache._data.hasOwnProperty(modelName)) {
+                this._cache._data[modelName] = {};
+            }
+            const id = inst.id || (inst.get && inst.get('id'));
+            if (id) {
+                this._cache._data[modelName][id] = inst;
+            }
+            return this;
+        }
+
         create(modelName, modelData) {
             const modelCls = NameToModel[modelName];
             const model = new modelCls(modelData);
             model.store = this; //todo: get rid of this, store should auto inject into model instance
+            this.addToCache(model);
             return model;
         }
 
@@ -55,15 +68,9 @@ function injector(MediaDocModel, UserModel) {
                 .then(data=> {
                     const keys = Object.keys(data.payload);
                     keys.forEach(k=> {
-                        const c = this._cache._data;
                         data.payload[k] = data.payload[k].map(modelData=> {
                             const id = modelData['id'];
-                            const model = this.create(modelName, modelData);
-                            if (!c[k]) {
-                                c[k] = {};
-                            }
-                            c[k][id] = model;
-                            return model;
+                            return this.create(modelName, modelData);
                         })
                     });
                     return data.payload;
@@ -75,6 +82,13 @@ function injector(MediaDocModel, UserModel) {
         }
 
         unload(instance) {
+            const modelName = instance.modelName;
+            if (!this._cache._data.hasOwnProperty(modelName)) {
+                return;
+            }
+            const c = this._cache._data[modelName];
+            Object.values(c).filter(mc=>mc === instance).forEach(mc=>delete c[mc.get('id')]);
+
 
         }
     }

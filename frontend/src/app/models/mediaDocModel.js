@@ -13,10 +13,15 @@ export default function injector(BasicModel, UserModel) {
         constructor(data) {
             super('mediaDoc', data);
             this.setSchema({
-                id: DataType.readonly('number'),
+                resourceName: 'string',
+                description: 'string',
+                accessUrl: 'string',
+                status: 'integer',
+                version: 'integer',
                 originalFileName: 'string',
                 users: DataType.hasMany('user'),
-                fileSize: 'integer'
+                fileSize: 'integer',
+                id: DataType.readonly('integer')
             })
         }
     }

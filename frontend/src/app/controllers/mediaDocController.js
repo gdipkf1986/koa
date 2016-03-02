@@ -17,11 +17,7 @@ export default class MediaDocController extends BasicController {
         this.load();
 
 
-        this.methodToScope(['active', 'update', 'uploadFiles']);
-
-    }
-
-    active(id) {
+        this.methodToScope(['update', 'uploadFiles']);
 
     }
 
@@ -33,26 +29,52 @@ export default class MediaDocController extends BasicController {
 
     uploadFiles(file, invalidFiles, data) {
         if (file) {
+
+            this.$scope.processing = true;
             let url = `${ApiEndPoint}/mediaDocs/`;
             let method = 'POST';
             if (data) {
-                url = `${ApiEndPoint}/mediaDocs/${data.id}`
+                url = `${ApiEndPoint}/mediaDocs/${data.resourceName}`;
+                method = 'PUT';
             }
             this.Upload.upload({
                 url,
-                method: method,
-                data: {file: file}
+                method,
+                data: {file}
             }).then((result)=> {
-                debugger;
+                if (data) {
+                    const newData = result.data.payload[0][0];
+                    this.$scope.mediaDocs.forEach(m=> {
+                        if (m.resourceName === newData.resourceName) {
+                            const inst = this.store.peek('mediaDoc', m.id);
+                            inst.setData(newData);
+                            Object.assign(m, newData);
+                        }
+                    })
+                } else {
+                    result.data.payload[0].forEach(r=> {
+                        this.store.create('mediaDoc', r);
+                    });
+                    this.$scope.mediaDocs = result.data.payload[0].concat(this.$scope.mediaDocs);
+                }
+                this.$scope.processing = false;
+
+
             }, ()=> {
+                this.$scope.processing = false;
                 alert('Error occur when upload')
             })
 
         }
     }
 
-    update(mediaDoc) {
-        console.log(mediaDoc.id);
+    update(proxy) {
+        const id = proxy.id;
+        const model = this.store.peek('mediaDoc', id);
+        this.$scope.processing = proxy;
+        model.set('description', proxy.description).save({id}).then(()=> {
+            this.$scope.processing = false;
+        })
     }
 
 }
