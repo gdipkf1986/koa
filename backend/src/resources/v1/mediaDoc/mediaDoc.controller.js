@@ -127,6 +127,7 @@ Object.assign(exports, {
 
     },
     put: function*(next) {
+        //todo: for history tracking, here should be insert new record and increase version from latest
         const id = parseInt(this.params.id);
         let inst = yield models.MediaDoc.findById(id);
         if (!inst) {

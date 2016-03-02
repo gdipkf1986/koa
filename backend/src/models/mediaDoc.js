@@ -3,12 +3,21 @@
  */
 'use strict';
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function (sequelize, DataTypes) {
     const MediaDoc = sequelize.define('MediaDoc', {
-        originalFileName: DataTypes.STRING,
+        originalFileName: {type: DataTypes.STRING, allowNull: false},
         fileSize: DataTypes.INTEGER,
+        description: DataTypes.STRING,
         storedFileName: DataTypes.STRING,
-        status: DataTypes.INTEGER
+        status: {type: DataTypes.INTEGER, defaultValue: 0},
+        versions: {type: DataTypes.INTEGER, defaultValue: 0}
+    }, {
+        indexes: [{
+            fields: ['originalFileName']
+        }, {
+            fields: ['description'] // todo: full text search by MyISAM engine
+        }]
+
     });
     return MediaDoc;
     //return {
