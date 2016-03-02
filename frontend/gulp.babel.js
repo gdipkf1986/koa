@@ -158,7 +158,7 @@ gulp.task('watch', () => {
     argv.debug = true;
     gulp.watch(__dirname + '/src/app/**/*.js', ['app_js']);
     gulp.watch(__dirname + '/src/scss/**/*.scss', ['app_css']);
-    gulp.watch([__dirname + '/partials/**/*.html','./index.html'], ['html'])
+    gulp.watch([__dirname + '/partials/**/*.html', './index.html'], ['html'])
 });
 
 gulp.task('webserver', function () {
@@ -174,9 +174,10 @@ gulp.task('webserver', function () {
 });
 
 gulp.task('app', ['app_js', 'app_css', 'html']);
+gulp.task('vendor', ['vendor_js']);
 
 if (argv.debug) {
-    gulp.task('default', ['app', 'watch']);
+    gulp.task('default', ['vendor', 'app', 'watch']);
 } else {
-    gulp.task('default', ['app']);
+    gulp.task('default', ['vendor', 'app']);
 }
