@@ -17,8 +17,11 @@ const app = require('koa')();
 require('./config/koa')(app);
 require('koa-qs')(app, 'first');
 require('./middleware/cobody')(app);
+require('./middleware/bodyParser')(app);
 require('./middleware/multipart')(app);
 require('./middleware/crossDomain')(app);
+require('./middleware/session')(app);
+require('./middleware/grant')(app);
 
 require('./config/routes')(app);
 
