@@ -3,4 +3,5 @@
  */
 
 export const ApplicationName = 'KoaFrontEnd';
-export const ApiEndPoint = 'http://localhost:9000/api';
+export const ServerEndPoint = 'http://localhost:9000';
+export const ApiEndPoint = `${ServerEndPoint}/api`;

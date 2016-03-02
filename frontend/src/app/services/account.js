@@ -3,7 +3,7 @@
  */
 
 import {log} from '../utils/dev';
-import {ApiEndPoint} from '../AppConfig';
+import {ServerEndPoint} from '../AppConfig';
 
 class Account {
     constructor($http) {
@@ -12,7 +12,11 @@ class Account {
     }
 
     refreshAuth() {
-        return Promise.resolve({success: true});
+        return this.$http({url: `${ServerEndPoint}/auth`}).then((response)=> {
+            this.config = response.data.payload.config;
+        }, ()=> {
+            console.error('login failed');
+        });
 
         //if (!this.lastAuth) {
         //    return this.$http({url: `${ApiEndPoint}/auth`}).then(()=> {
