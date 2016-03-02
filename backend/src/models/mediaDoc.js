@@ -3,11 +3,12 @@
  */
 'use strict';
 
-module.exports = function (sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes) {
     const MediaDoc = sequelize.define('MediaDoc', {
         originalFileName: DataTypes.STRING,
         fileSize: DataTypes.INTEGER,
-        storedFileName: DataTypes.STRING
+        storedFileName: DataTypes.STRING,
+        status: DataTypes.INTEGER
     });
     return MediaDoc;
     //return {

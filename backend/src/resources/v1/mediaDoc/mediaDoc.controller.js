@@ -5,6 +5,8 @@ const config = require('../../../config/environment');
 const models = require('../../../models');
 const s3 = require('s3');
 
+const status = require('../../../models/CONST_MEDIADOC_STATUS');
+
 const amazonS3Client = s3.createClient({
     multipartUploadThreshold: 20971520, // 20 MB
     multipartUploadSize: 15728640, // 15 MB
@@ -112,7 +114,8 @@ Object.assign(exports, {
             const inst = yield models.MediaDoc.create({
                 originalFileName: originalFileName,
                 storedFileName: s3Result,
-                fileSize: meta.fileSize
+                fileSize: meta.fileSize,
+                status: status.underReview
             });
 
             result[originalFileName] = inst.toJSON();
@@ -149,9 +152,23 @@ Object.assign(exports, {
     }
     ,
     destroy: function*(next) {
+        // todo: mark as destroyed for history tracking. do we need remove file from storage if record marked as destroyed?
         const id = parseInt(this.params.id);
-        const deletedNum = yield models.MediaDoc.destroy({where: {id: id}});
-        this.status = deletedNum > 0 ? 200 : 400;
+        let inst = yield models.MediaDoc.findById(id);
+        if (!inst) {
+            this.status = 404;
+            this.body = {success: false, message: 'unknown id'}
+        } else {
+            let updateResult = yield inst.update({status: status.destroyed});
+            if (updateResult.status === status.destroyed) {
+                this.status = 200;
+            } else {
+                this.status = 400;
+            }
+        }
+
+        //const deletedNum = yield models.MediaDoc.destroy({where: {id: id}});
+        //this.status = deletedNum > 0 ? 200 : 400;
         yield next;
     }
 });
