@@ -46,7 +46,7 @@ $ npm run local
   - [ ] REST Api
       - [ ] POST
           - [x] File upload 
-          - [ ] File S3 Storage
+          - [x] File S3 Storage
           - [ ] Generate preview
               - [ ] Image: thumbnail as request
               - [ ] PDF: Convert current page to image as request
