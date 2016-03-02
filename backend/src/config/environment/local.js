@@ -18,12 +18,13 @@ module.exports = {
     grant: {
         server: {
             protocol: 'http',
-            host: 'localhost'
+            host: '127.0.0.1:9000'
         },
         google: {
             key: '1072883307484-k8n0nhskap4ocnllfmu3vbueit4ek7sl.apps.googleusercontent.com',
             secret: 'DzsQXIjmXtTKBB2ytjD77wfm',
-            callback: '/auth/google/done'
+            callback: '/oauth/callback',
+            'scope': 'https://www.googleapis.com/auth/plus.login'
         }
     }
 };

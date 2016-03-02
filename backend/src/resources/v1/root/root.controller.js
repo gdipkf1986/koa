@@ -22,5 +22,11 @@ Object.assign(exports, {
             }
         };
         this.status = 200;
+    },
+    oauthCallback: function*(next) {
+        console.log(this.request.body, this.params, this.query);
+        this.body = this.params;
+        this.status = 200;
+        yield next;
     }
 });
