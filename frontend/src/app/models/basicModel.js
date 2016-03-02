@@ -60,6 +60,10 @@ export default function injector($resource) {
             }
         }
 
+        destroy() {
+            return this.resource.delete({id: this.get('resourceName')}).$promise;
+        }
+
 
         toJson() {
             const schema = this[symbol_modelSchemaCfg];

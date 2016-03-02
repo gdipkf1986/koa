@@ -17,7 +17,7 @@ export default class MediaDocController extends BasicController {
         this.load();
 
 
-        this.methodToScope(['update', 'uploadFiles']);
+        this.methodToScope(['update', 'uploadFiles', 'delete']);
 
     }
 
@@ -27,8 +27,9 @@ export default class MediaDocController extends BasicController {
         })
     }
 
-    uploadFiles(file, invalidFiles, data) {
-        if (file) {
+    uploadFiles(files, invalidFiles, data) {
+        debugger;
+        if (files) {
 
             this.$scope.processing = true;
             let url = `${ApiEndPoint}/mediaDocs/`;
@@ -40,7 +41,7 @@ export default class MediaDocController extends BasicController {
             this.Upload.upload({
                 url,
                 method,
-                data: {file}
+                data: {files}
             }).then((result)=> {
                 if (data) {
                     const newData = result.data.payload[0][0];
@@ -75,6 +76,21 @@ export default class MediaDocController extends BasicController {
         model.set('description', proxy.description).save({id}).then(()=> {
             this.$scope.processing = false;
         })
+    }
+
+    delete(proxy) {
+        if (!confirm(`Are you sure to delete ${proxy.resourceName}`)) {
+            return
+        }
+        const id = proxy.id;
+        const model = this.store.peek('mediaDoc', id);
+        this.$scope.processing = proxy;
+        model.destroy().then(()=> {
+            this.$scope.processing = false;
+            this.$scope.mediaDocs = this.$scope.mediaDocs.filter(m=>m.id !== id);
+            this.store.unload(model);
+        }, ()=> {
+        });
     }
 
 }

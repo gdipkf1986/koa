@@ -6,10 +6,10 @@
         type="file"
         class="btn btn-danger"
         style="margin: 0 0 20px 0"
-        multiple
+        multiple="multiple"
         ng-disabled="processing && !processing.id"
         ngf-multiple="true"
-        ngf-select="uploadFiles($file, $invalidFiles)"
+        ngf-select="uploadFiles($files, $invalidFiles)"
         ngf-max-size="1MB">Upload New Files (maximum 1MB)
       </button>
     </div>
@@ -42,13 +42,19 @@
                strip-tags="true"
                placeholder="Click to edit, blur to save"></div>
         </td>
-        <td>
+        <td style="text-align: center">
           <button type="file"
                   ngf-multiple="false"
                   ngf-max-size="1MB"
                   ngf-select="uploadFiles($file, $invalidFiles, m)"
                   class="btn btn-primary btn-sm"/>
           Update file</button>
+          <button
+            class="btn btn-default btn-sm"
+            style="margin-top: 5px"
+            ng-disabled="processing && processing.id === m.id"
+            ng-click="delete(m)"/>
+          Delete </button>
         </td>
       </tr>
 

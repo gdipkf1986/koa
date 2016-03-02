@@ -87,7 +87,7 @@ function injector(MediaDocModel, UserModel) {
                 return;
             }
             const c = this._cache._data[modelName];
-            Object.values(c).filter(mc=>mc === instance).forEach(mc=>delete c[mc.get('id')]);
+            Object.keys(c).filter(id=>c[id] === instance).forEach(id=>delete c[id]);
 
 
         }

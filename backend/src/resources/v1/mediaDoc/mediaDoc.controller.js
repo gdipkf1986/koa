@@ -46,7 +46,7 @@ function* uploadToS3(originalFileName, meta) {
 
 Object.assign(exports, {
     list: function*(next) {
-        const query = {limit: 20, offset: 0, 'filename': null, where: {version: 0}};
+        const query = {limit: 20, offset: 0, 'filename': null, where: {version: 0, status: {ne: 2}}};
         const params = this.query;
         for (let key in query) {
             if (!params.hasOwnProperty(key) || key === 'where') {
