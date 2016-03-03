@@ -17,13 +17,14 @@ export default class MediaDocController extends BasicController {
         this.load();
 
 
-        this.methodToScope(['update', 'uploadFiles', 'delete']);
+        this.methodToScope(['update', 'uploadFiles', 'delete', 'getHints']);
 
     }
 
-    load() {
-        super.load(...arguments).then(data=> {
+    load(params) {
+        return super.load(params).then(data=> {
             this.$scope.mediaDocs = data.MediaDoc.map(m=>m.toJson());
+            return this.$scope.mediaDocs;
         })
     }
 
@@ -92,6 +93,14 @@ export default class MediaDocController extends BasicController {
             this.$scope.mediaDocs = this.$scope.mediaDocs.filter(m=>m.id !== id);
             this.store.unload(model);
         }, ()=> {
+        });
+    }
+
+    getHints(val) {
+        return this.store.fetchAll('mediaDoc', {filename: val}).then(data=> {
+            const data1 = data.MediaDoc.map(m=>m.toJson());
+            log(data1);
+            return data1;
         });
     }
 

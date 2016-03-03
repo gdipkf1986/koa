@@ -31,7 +31,21 @@
         padding: 5px;
     }
 
-    .upload-btn {
+    .search-box {
+        float: left;
+
+        input {
+            border: 1px solid #ccc;
+            background-color: #ebebeb;
+            min-width: 300px;
+            line-height: 20px;
+            padding: 5px 10px;
+            text-align: left;
+        }
+    }
+
+    .tools {
         @include children-vertical-align();
+        margin-bottom: 50px;
     }
 }

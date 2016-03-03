@@ -58,13 +58,12 @@ function injector(MediaDocModel, UserModel) {
         }
 
         fetchAll(modelName, params) {
-
             const modelCls = NameToModel[modelName];
             if (!modelCls) {
                 throw `${modelName} is not existing`;
             }
             return new modelCls()
-                .query()
+                .query(params || {})
                 .then(data=> {
                     const keys = Object.keys(data.payload);
                     keys.forEach(k=> {

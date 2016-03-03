@@ -52,8 +52,8 @@ export default function injector($resource) {
             return this;
         }
 
-        query() {
-            return this.resource.query().$promise;
+        query(params) {
+            return this.resource.query(params || {}).$promise;
         }
 
         save() {

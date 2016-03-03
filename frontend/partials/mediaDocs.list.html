@@ -1,6 +1,26 @@
 <div id="apps" xmlns="http://www.w3.org/1999/html">
+
+  <script type="text/ng-template" id="customTemplate.html">
+    <a>
+      <span ng-bind-html="match.model.originalFileName | uibTypeaheadHighlight:query"></span>
+    </a>
+  </script>
+
   <form role="form" name="mediaDocList" id="mediaDocList">
-    <div class="upload-btn" style="text-align: right">
+    <div class="tools" style="text-align: right">
+      {{searchFile}}
+      <span class="search-box"><input
+        ng-model="searchFile"
+        uib-typeahead="file as file.resourceName for file in getHints($viewValue)"
+        typeahead-loading="loadingFiles"
+        typeahead-no-results="noResults"
+        typeahead-min-length="4"
+        typeahead-wait-ms="200"
+        typeahead-template-url="customTemplate.html"
+        placeholder="Type here to search by filename"/><img ng-show="loadingFiles" src="/ajax-loader.gif" alt=""
+                                                            style="margin-left: 10px"></span>
+
+
       <img src="/ajax-loader.gif" alt="" ng-show="processing">
       <button
         type="file"

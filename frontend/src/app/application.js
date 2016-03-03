@@ -6,6 +6,7 @@ import ngTagsInput from 'ng-tags-input';
 import ngFileUpload from 'ng-file-upload';
 import contenteditable from 'angular-contenteditable';
 import ngAnimate from 'angular-animate';
+import ngBootstrap from 'angular-ui-bootstrap';
 
 import {log} from './utils/dev';
 import register from './utils/register';
@@ -14,8 +15,8 @@ import {ApplicationName} from './AppConfig';
 
 log('defining ', ApplicationName);
 const application = angular
-    .module(ApplicationName, [router, 'ui.router.stateHelper', 'ngResource', 'ngTagsInput', 'ngFileUpload', 'contenteditable', 'ngAnimate'])
-    .run(['$rootScope', '$urlRouter', '$http', ($rootScope, $urlRouter, $http)=> {
+    .module(ApplicationName, [router, 'ui.router.stateHelper', 'ngResource', 'ngTagsInput', 'ngFileUpload', 'contenteditable', 'ngAnimate', 'ui.bootstrap'])
+    .run(['$rootScope', '$urlRouter', ($rootScope, $urlRouter)=> {
 
         log(ApplicationName + ' running');
 
@@ -37,8 +38,6 @@ const application = angular
                 $state.go(to.redirectTo, params)
             }
         });
-
-        $http.defaults.useXDomain = true;
     }]);
 
 application

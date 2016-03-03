@@ -24,8 +24,8 @@ export default class BasicController {
 
     }
 
-    load() {
-        return this.store.fetchAll(this.modelName);
+    load(params) {
+        return this.store.fetchAll(this.modelName, params);
     }
 
     methodToScope(methodNames) {
