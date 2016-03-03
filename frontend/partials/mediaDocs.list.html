@@ -26,6 +26,7 @@
         type="file"
         class="btn btn-danger"
         multiple="multiple"
+        ngf-accept="'image/*|audio/*|video/*'"
         ng-disabled="processing && !processing.id"
         ngf-multiple="true"
         ngf-select="uploadFiles($files, $invalidFiles)"

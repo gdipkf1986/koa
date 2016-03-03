@@ -30,7 +30,24 @@ export default class MediaDocController extends BasicController {
 
     uploadFiles(files, invalidFiles, data) {
         if (files) {
+            const validFiles = [];
+            const allowedMime = ['image', 'audio', 'video'];
+            for (let i = 0; i < files.length; i++) {
+                let file = files[i];
+                if (!file.type) {
+                    continue;
+                }
+                const fileMime = file.type.toLowerCase().replace(/\/.+$/g, '');
+                if (allowedMime.indexOf(fileMime) > -1) {
+                    validFiles.push(file);
+                }
+            }
 
+            if (validFiles.length < 1) {
+                return;
+            } else if (validFiles.length != files.length && !confirm('Some of your files are not valid, do you wanna continue as ignore them?')) {
+                return;
+            }
             this.$scope.processing = true;
             let url = `${ApiEndPoint}/mediaDocs/`;
             let method = 'POST';
@@ -41,7 +58,7 @@ export default class MediaDocController extends BasicController {
             this.Upload.upload({
                 url,
                 method,
-                data: {files}
+                data: {validFiles}
             }).then((result)=> {
                 if (data) {
                     const newData = result.data.payload[0][0];
