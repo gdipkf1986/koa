@@ -5,7 +5,7 @@
 import {ApiEndPoint, ApplicationName} from '../AppConfig';
 import {Map} from 'immutable';
 
-import {registeredModels, symbol_modelData, symbol_modelSchemaCfg, descriptor} from './utils';
+import {registeredModels, symbol_modelData, symbol_modelSchemaCfg, symbol_modelInitData, descriptor} from './utils';
 
 
 export default function injector($resource) {
@@ -17,7 +17,9 @@ export default function injector($resource) {
     class BasicModel {
 
         constructor(name, data) {
-            this[symbol_modelData] = Map(data);
+            const immutData = Map(data);
+            this[symbol_modelData] = immutData;
+            this[symbol_modelInitData] = immutData;
             this.resource = $resource(`${ApiEndPoint}/${name}s/:id`, {id: ''}, {
                 'query': {method: 'GET', isArray: false},
                 'update': {method: 'PUT', isArray: false}
@@ -26,6 +28,10 @@ export default function injector($resource) {
             this.store = null;
 
             return this;
+        }
+
+        isDirty() {
+            return this[symbol_modelData] === this[symbol_modelInitData];
         }
 
         get(field) {
@@ -55,7 +61,7 @@ export default function injector($resource) {
             if (id) {
                 return this.resource.update({id: this.get('resourceName')}, this.toJson()).$promise;
             } else {
-                return this.resource.save().$promise;
+                return this.resource.save({id: this.get('resourceName')}, this.toJson()).$promise;
 
             }
         }

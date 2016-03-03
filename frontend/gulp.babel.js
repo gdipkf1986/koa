@@ -132,8 +132,8 @@ gulp.task('app_css', function () {
         .pipe(liveReload())
 });
 
-gulp.task('html', function () {
-    gulp.src(['./partials/*.html', './index.html'])
+gulp.task('html', ()=> {
+    gulp.src(['./partials/*.*', './index.html'])
         .pipe(gulp.dest('./dest'))
         .pipe(liveReload())
 });

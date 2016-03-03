@@ -1,11 +1,10 @@
 <div id="apps" xmlns="http://www.w3.org/1999/html">
   <form role="form" name="mediaDocList" id="mediaDocList">
-    <div style="text-align: right">
+    <div class="upload-btn" style="text-align: right">
+      <img src="/ajax-loader.gif" alt="" ng-show="processing">
       <button
-
         type="file"
         class="btn btn-danger"
-        style="margin: 0 0 20px 0"
         multiple="multiple"
         ng-disabled="processing && !processing.id"
         ngf-multiple="true"
@@ -25,7 +24,8 @@
       </tr>
       </thead>
       <tbody>
-      <tr ng-repeat="m in mediaDocs track by $index">
+      <tr class="mediaDocRow" ng-repeat="m in mediaDocs track by $index"
+          ng-class="{'processing':processing && processing.id === m.id}">
         <td>{{m.resourceName}}</td>
         <td>{{m.originalFileName}}</td>
         <td>{{m.fileSize}}</td>
@@ -35,12 +35,13 @@
         <td>
           <div class="description"
                contenteditable="true"
-               ng-class="{'processing':processing && processing.id === m.id}"
+
                ng-blur="update(m)"
                ng-model="m.description"
                strip-br="true"
                strip-tags="true"
-               placeholder="Click to edit, blur to save"></div>
+               placeholder="Click to edit, blur to save">{{m.description}}
+          </div>
         </td>
         <td style="text-align: center">
           <button type="file"

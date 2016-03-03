@@ -14,14 +14,24 @@
         display: inline-block;
     }
 
+    .mediaDocRow {
+        transition: 0.5s linear all;
+        &.processing {
+            background-color: rgba(#ff0000, 0.8);
+        }
+    }
+
+    .processing.ng-leave {
+        background-color: #ebebeb;
+    }
+
     .description {
         height: 60px;
         background-color: #ebebeb;
         padding: 5px;
-        transition: background-color 2s;
+    }
 
-        &.processing {
-            background-color: #ff0000;
-        }
+    .upload-btn {
+        @include children-vertical-align();
     }
 }

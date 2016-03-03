@@ -22,6 +22,37 @@ $main-color: #f8f8f8;
     outline: none;
 }
 
+@mixin children-vertical-align($pseudo:before, $pos:middle) {
+    @if ($pseudo == before) {
+        &::before {
+            content: ' ';
+            height: 100%;
+            width: 0;
+            display: inline-block;
+            vertical-align: $pos;
+        }
+    }
+
+    @if ($pseudo == after) {
+        &::after {
+            content: ' ';
+            height: 100%;
+            width: 0;
+            display: inline-block;
+            vertical-align: $pos;
+        }
+    }
+
+    & > * {
+        vertical-align: $pos;
+        display: inline-block;
+    }
+}
+
+.navbar-header {
+    @include children-vertical-align()
+}
+
 #messager {
     background-color: #efefef;
     padding: 10px;

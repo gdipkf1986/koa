@@ -4,6 +4,8 @@ import stateHelper from 'angular-ui-router.statehelper'
 import ngResource from 'angular-resource';
 import ngTagsInput from 'ng-tags-input';
 import ngFileUpload from 'ng-file-upload';
+import contenteditable from 'angular-contenteditable';
+import ngAnimate from 'angular-animate';
 
 import {log} from './utils/dev';
 import register from './utils/register';
@@ -12,7 +14,7 @@ import {ApplicationName} from './AppConfig';
 
 log('defining ', ApplicationName);
 const application = angular
-    .module(ApplicationName, [router, 'ui.router.stateHelper', 'ngResource', 'ngTagsInput', 'ngFileUpload'])
+    .module(ApplicationName, [router, 'ui.router.stateHelper', 'ngResource', 'ngTagsInput', 'ngFileUpload', 'contenteditable', 'ngAnimate'])
     .run(['$rootScope', '$urlRouter', ($rootScope, $urlRouter)=> {
 
         log(ApplicationName + ' running');

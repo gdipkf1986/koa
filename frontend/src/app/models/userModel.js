@@ -12,9 +12,6 @@ export default function injector(BasicModel) {
             super('user', data);
         }
     }
-
-    //UserModel.prototype.name = 'user';
-
     return UserModel;
 }
 

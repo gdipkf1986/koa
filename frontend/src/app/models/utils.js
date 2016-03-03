@@ -3,6 +3,7 @@
  */
 
 export const symbol_modelData = Symbol('data');
+export const symbol_modelInitData = Symbol('initData');
 export const symbol_modelSchemaCfg = Symbol('schema');
 
 export const registeredModels = {'mediaDoc': true, 'user': true};

@@ -28,7 +28,6 @@ export default class MediaDocController extends BasicController {
     }
 
     uploadFiles(files, invalidFiles, data) {
-        debugger;
         if (files) {
 
             this.$scope.processing = true;
@@ -72,8 +71,11 @@ export default class MediaDocController extends BasicController {
     update(proxy) {
         const id = proxy.id;
         const model = this.store.peek('mediaDoc', id);
+        if (model.get('description') === proxy.description) {
+            return;
+        }
         this.$scope.processing = proxy;
-        model.set('description', proxy.description).save({id}).then(()=> {
+        model.set('description', proxy.description).save().then(()=> {
             this.$scope.processing = false;
         })
     }
