@@ -5,7 +5,7 @@ import fs from 'fs';
 import through from 'through2';
 import crypto from 'crypto';
 import path from 'path';
-import glob from 'glob'
+import glob from 'glob';
 import gutil from 'gulp-util';
 
 import gulp from 'gulp';
@@ -36,11 +36,7 @@ import ngAnnotate from 'gulp-ng-annotate';
 const argv = args.argv;
 console.log(argv);
 
-
-const libs = Object.keys(require('./package.json').dependencies).filter(lib=> {
-    return true;
-});
-
+const libs = Object.keys(require('./package.json').dependencies).filter(lib=> true);
 
 function calcMd5(file, slice) {
     let md5 = crypto.createHash('md5');
@@ -49,27 +45,26 @@ function calcMd5(file, slice) {
     return slice > 0 ? md5.digest('hex').slice(0, slice) : md5.digest('hex');
 }
 
-
 function md5(size, html, debug = false) {
 
-    return through.obj(function (file, enc, cb) {
+    return through.obj(function(file, enc, cb) {
 
         if (!debug) {
 
             const ofilename = path.basename(file.path);
-            let [fPrefix, fExtension] =ofilename.split('.');
+            let [fPrefix, fExtension] = ofilename.split('.');
             const d = calcMd5(file, size);
 
-            const new_filename = fPrefix + '_' + d + '.' + fExtension;
+            const newFilename = fPrefix + '_' + d + '.' + fExtension;
 
-            file.path = path.join(file.base, new_filename);
+            file.path = path.join(file.base, newFilename);
             const pattern = new RegExp(fPrefix + '(_\\w\{' + size + '\})?\\.' + fExtension, 'g');
 
             const folder = './dest';
             fs.readdirSync(folder)
                 .forEach(f=>pattern.test(f) ? fs.unlink(folder + '/' + f) : '');
 
-            let data = fs.readFileSync(html, 'utf-8').replace(pattern, new_filename);
+            let data = fs.readFileSync(html, 'utf-8').replace(pattern, newFilename);
 
             fs.writeFileSync(html, data, 'utf-8');
         }
@@ -78,14 +73,12 @@ function md5(size, html, debug = false) {
 
         cb();
 
-
-    }, function (cb) {
+    }, function(cb) {
         cb();
     });
 }
 
-
-gulp.task('app_js', function () {
+gulp.task('app_js', ()=> {
 
     const html = __dirname + '/index.html';
 
@@ -96,7 +89,7 @@ gulp.task('app_js', function () {
         .external(libs)
         .transform(babelify)
         .bundle()
-        .on('error', function (error) {
+        .on('error', function(error) {
             console.error(`error at ${JSON.stringify(error.loc)} of ${error.filename}`);
             console.error(error);
             return true;
@@ -116,7 +109,7 @@ gulp.task('app_js', function () {
         .pipe(liveReload());
 });
 
-gulp.task('app_css', function () {
+gulp.task('app_css', ()=> {
 
     const html = './index.html';
     const cssPath = './dest';
@@ -129,17 +122,16 @@ gulp.task('app_css', function () {
         //.pipe(md5(10, html, argv.debug))
         .pipe(sourceMaps.write('.'))
         .pipe(gulp.dest(cssPath))
-        .pipe(liveReload())
+        .pipe(liveReload());
 });
 
 gulp.task('html', ()=> {
     gulp.src(['./partials/*.*', './index.html'])
         .pipe(gulp.dest('./dest'))
-        .pipe(liveReload())
+        .pipe(liveReload());
 });
 
-
-gulp.task('vendor_js', function () {
+gulp.task('vendor_js', ()=> {
 
     const html = './index.html';
 
@@ -160,16 +152,15 @@ gulp.task('vendor_js', function () {
 
 });
 
-
 gulp.task('watch', () => {
     liveReload.listen();
     argv.debug = true;
     gulp.watch(__dirname + '/src/app/**/*.js', ['app_js']);
     gulp.watch(__dirname + '/src/scss/**/*.scss', ['app_css']);
-    gulp.watch([__dirname + '/partials/**/*.html', './index.html'], ['html'])
+    gulp.watch([__dirname + '/partials/**/*.html', './index.html'], ['html']);
 });
 
-gulp.task('webserver', function () {
+gulp.task('webserver', ()=> {
     gulp.src('./dest')
         .pipe(webserver({
             fallback: 'index.html',
