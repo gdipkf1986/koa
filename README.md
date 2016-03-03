@@ -39,11 +39,11 @@ $ npm run local
 
 For google oauth login test, please access **http://127.0.0.1:9000/connect/google**
 For REST api test, please access these endpoints by any rest test tool like Post Man 
-* **POST http://127.0.0.1/api/v1/mediaDocs/** with files in form-data by any field name
-* **PUT http://127.0.0.1/api/v1/mediaDocs/${resourceName}** with files in form-data by any field name, ${resourceName} is returned by POST before, previous files under same resourceName will mark as history
-* **GET http://127.0.0.1/api/v1/mediaDocs/${resourceName}** with get latest version of this resource's meta data
-* **GET http://127.0.0.1/api/v1/mediaDocs/?filename=${filename}** will return first 20 resources which original file name include passed value
-* **DELETE http://127.0.0.1/api/v1/mediaDocs/${resourceName}** will mark latest version of this resource as deleted
+* **POST http://127.0.0.1:9000/api/v1/mediaDocs/** with files in form-data by any field name
+* **PUT http://127.0.0.1:9000/api/v1/mediaDocs/${resourceName}** with files in form-data by any field name, ${resourceName} is returned by POST before, previous files under same resourceName will mark as history
+* **GET http://127.0.0.1:9000/api/v1/mediaDocs/${resourceName}** with get latest version of this resource's meta data
+* **GET http://127.0.0.1:9000/api/v1/mediaDocs/?filename=${filename}** will return first 20 resources which original file name include passed value
+* **DELETE http://127.0.0.1:9000/api/v1/mediaDocs/${resourceName}** will mark latest version of this resource as deleted
 
 #### Features breakdown
   - [x]  System 
@@ -88,6 +88,7 @@ Frontend build on Angularjs.
 $ cd ~/frontend
 $ npm install
 $ gulp webserver
+# visti http://127.0.0.1:9001/ via moden browser 
 ```
  
  - [x] System
