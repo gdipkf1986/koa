@@ -33,18 +33,19 @@ Backend is build on ES6 and Mysql, please make user you are installed it properl
 ```bash
 $ cd ~/backend
 $ npm install
+$ vim src/config/environment/local.js
 $ npm run local
 ```
 
 #### Features breakdown
-  - [ ]  System 
+  + [ ]  System 
     - [x] Framework 
     - [x] Data access layer 
     - [x] Url schema
     - [x] History
   
-  - [ ] REST Api
-      - [ ] POST
+  + [ ] REST Api
+      + [ ] POST
           - [x] File upload 
           - [x] File S3 Storage
           - [ ] Generate preview
@@ -58,11 +59,11 @@ $ npm run local
         - [ ] Full text search, mysql ISAM engine set full text search index
       - [x] Delete 
  
-  - [ ] Authentication
+  + [ ] Authentication
     - [ ] Third party authentication integration
     - [ ] User access control middleware
     
-  - [ ] Deployment
+  + [ ] Deployment
     - [ ] Script to deploy
 
 
@@ -77,11 +78,14 @@ $ npm install
 $ gulp webserver
 ```
  
- - [x] System
-      - [x] Framework 
-      - [x] Data persistent 
-      - [x] Route schema 
-      - [x] Build script 
- 
- - [ ] Data
-      - [ ] Models
+ + [x] System
+    + [x] Framework
+    - [x] Data persistent
+      - [x] Model
+      - [x] Store
+    - [x] Route schema 
+    - [x] Build script 
+
+ + [x] Upload
+  
+    
