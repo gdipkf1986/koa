@@ -29,12 +29,14 @@ export default class MediaDocController extends BasicController {
     }
 
     uploadFiles(files, invalidFiles, data) {
+        const validFiles = [];
+
         if (files) {
-            const validFiles = [];
             const allowedMime = ['image', 'audio', 'video'];
             for (let i = 0; i < files.length; i++) {
                 let file = files[i];
                 if (!file.type) {
+                    console.log(`could not access ${file.name} mime info`);
                     continue;
                 }
                 const fileMime = file.type.toLowerCase().replace(/\/.+$/g, '');
@@ -44,7 +46,7 @@ export default class MediaDocController extends BasicController {
             }
 
             if (validFiles.length < 1) {
-                return;
+                return alert(`no valid file`);
             } else if (validFiles.length != files.length && !confirm('Some of your files are not valid, do you wanna continue as ignore them?')) {
                 return;
             }

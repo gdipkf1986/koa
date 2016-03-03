@@ -23,19 +23,27 @@ Target to provide a REST service and SPA portal.
 * Agnostic Frontend
 * REST API
 - Isomorphic
- - Isomorphic model https://github.com/geddy/model
+ - Isomorphic model ref : https://github.com/geddy/model
 
 
 ### Backend
 
-Backend is build on ES6 and Mysql, please make user you are installed it properly.
+Backend is build on ES6 and Mysql, please make user you are installed it properly before config application.
 
 ```bash
 $ cd ~/backend
-$ npm install
-$ vim src/config/environment/local.js
+$ npm install 
+$ vim src/config/environment/local.js # configuration of database and other service like Amazon S3, google oauth
 $ npm run local
 ```
+
+For google oauth login test, please access **http://127.0.0.1:9000/connect/google**
+For REST api test, please access these endpoints by any rest test tool like Post Man 
+* **POST http://127.0.0.1/api/v1/mediaDocs/** with files in form-data by any field name
+* **PUT http://127.0.0.1/api/v1/mediaDocs/${resourceName}** with files in form-data by any field name, ${resourceName} is returned by POST before, previous files under same resourceName will mark as history
+* **GET http://127.0.0.1/api/v1/mediaDocs/${resourceName}** with get latest version of this resource's meta data
+* **GET http://127.0.0.1/api/v1/mediaDocs/?filename=${filename}** will return first 20 resource with original file name included passed value
+* **DELETE http://127.0.0.1/api/v1/mediaDocs/${resourceName}** will mark latest version of this resource as deleted
 
 #### Features breakdown
   - [x]  System 
@@ -56,16 +64,20 @@ $ npm run local
         - [x] Filter 
         - [x] Pagination 
         - [x] Sort 
-        - [ ] Full text search, mysql ISAM engine set full text search index
+        - [ ] Full text search: mysql ISAM engine set full text search index
       - [x] Delete 
  
   - [ ] Authentication
     - [x] Third party authentication integration
     - [ ] User access control middleware
+      - [ ] Privileges ---> Role <----- Users (Role based access control) 
     
   - [ ] Deployment
-    - [ ] Script to deploy
-
+    - [ ] Script to deployhttp://research.microsoft.com/en-us/people/yangsong/tagrecommendation.aspx
+    
+  - [ ] Tags
+    - [ ] ResourceName <--- many to many ----> Tag
+    - [ ] Tag recommendation: ref http://research.microsoft.com/en-us/people/yangsong/tagrecommendation.aspx
 
 
 ### Frontend
@@ -89,7 +101,7 @@ $ gulp webserver
  - [x] Data
    - [x] Read
    - [x] Upload / Add
-   - [x] Update
+   - [x] PUT
    - [x] Delete
    - [x] Search
     

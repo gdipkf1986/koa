@@ -31,12 +31,12 @@ Object.assign(exports, {
         yield next;
     },
     oauthCallback: function*(next) {
-        yield next;
 
         const query = this.query;
 
-        this.body = this.params;
+        this.body = `Your are logined google with token ${query.access_token.substring(0, 20)}...`;
         this.session.token = query.access_token; // todo: different session with
         this.status = 200;
+        yield next;
     }
 });
