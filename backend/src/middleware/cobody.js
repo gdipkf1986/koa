@@ -10,7 +10,7 @@ module.exports = function (app) {
 
     app.use(function*(next) {
         try {
-            this.request.body = yield parse.form(this);
+            this.request.body = yield parse(this);
         } catch (e) {
             this.request.body = {};
         }
