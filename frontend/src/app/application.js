@@ -15,7 +15,7 @@ import {ApplicationName} from './AppConfig';
 log('defining ', ApplicationName);
 const application = angular
     .module(ApplicationName, [router, 'ui.router.stateHelper', 'ngResource', 'ngTagsInput', 'ngFileUpload', 'contenteditable', 'ngAnimate'])
-    .run(['$rootScope', '$urlRouter', ($rootScope, $urlRouter)=> {
+    .run(['$rootScope', '$urlRouter', '$http', ($rootScope, $urlRouter, $http)=> {
 
         log(ApplicationName + ' running');
 
@@ -37,6 +37,8 @@ const application = angular
                 $state.go(to.redirectTo, params)
             }
         });
+
+        $http.defaults.useXDomain = true;
     }]);
 
 application
@@ -141,6 +143,9 @@ application
             };
         };
         interceptor.$inject = ['$q'];
+
+        $httpProvider.defaults.withCredentials = true;
+        delete $httpProvider.defaults.headers.common["X-Requested-With"];
 
         $httpProvider.interceptors.push(interceptor);
     }])

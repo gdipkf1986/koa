@@ -12,20 +12,18 @@ class Account {
     }
 
     refreshAuth() {
+        if (this.token) {
+            return Promise.resolve(true);
+        }
         return this.$http({url: `${ServerEndPoint}/auth`}).then((response)=> {
             this.config = response.data.payload.config;
+            this.token = response.data.payload.token;
+            return true;
         }, ()=> {
             console.error('login failed');
+            //document.location = `${ServerEndPoint}/connect/google`;
         });
 
-        //if (!this.lastAuth) {
-        //    return this.$http({url: `${ApiEndPoint}/auth`}).then(()=> {
-        //    }, ()=> {
-        //        document.location = '/login-in';
-        //    })
-        //} else {
-        //    return Promise.resolve({success: true});
-        //}
     }
 }
 
