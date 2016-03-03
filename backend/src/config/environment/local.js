@@ -18,7 +18,9 @@ module.exports = {
     grant: {
         server: {
             protocol: 'http',
-            host: '127.0.0.1:9000'
+            host: '127.0.0.1:9000',
+            'transport': 'session',
+            'state': true
         },
         google: {
             key: '1072883307484-k8n0nhskap4ocnllfmu3vbueit4ek7sl.apps.googleusercontent.com',
