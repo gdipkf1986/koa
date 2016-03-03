@@ -22,7 +22,7 @@ Target to provide a REST service and SPA portal.
 ### Basic Concept
 * Agnostic Frontend
 * REST API
-+ Isomorphic
+- Isomorphic
  - Isomorphic model https://github.com/geddy/model
 
 
@@ -38,14 +38,14 @@ $ npm run local
 ```
 
 #### Features breakdown
-  + [x]  System 
+  - [x]  System 
     - [x] Framework 
     - [x] Data access layer 
     - [x] Url schema
     - [x] History
   
-  + [ ] REST Api
-      + [ ] POST
+  - [ ] REST Api
+      - [ ] POST
           - [x] File upload 
           - [x] File S3 Storage
           - [ ] Generate preview
@@ -59,11 +59,11 @@ $ npm run local
         - [ ] Full text search, mysql ISAM engine set full text search index
       - [x] Delete 
  
-  + [ ] Authentication
-    - [ ] Third party authentication integration
+  - [ ] Authentication
+    - [x] Third party authentication integration
     - [ ] User access control middleware
     
-  + [ ] Deployment
+  - [ ] Deployment
     - [ ] Script to deploy
 
 
@@ -78,14 +78,20 @@ $ npm install
 $ gulp webserver
 ```
  
- + [x] System
-    + [x] Framework
+ - [x] System
+    - [x] Framework
     - [x] Data persistent
       - [x] Model
       - [x] Store
     - [x] Route schema 
     - [x] Build script 
 
- + [x] Upload
-  
+ - [x] Data
+   - [x] Read
+   - [x] Upload / Add
+   - [x] Update
+   - [x] Delete
+   - [x] Search
+    
+ 
     
