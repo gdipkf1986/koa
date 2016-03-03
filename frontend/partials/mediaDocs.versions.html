@@ -1,0 +1,34 @@
+<div id="resources" xmlns="http://www.w3.org/1999/html">
+
+  <div style="text-align: right; margin-bttom:20px">
+    <a href="/resource/v1/views/mediaDocs/" class="btn btn-danger">Back to list</a>
+  </div>
+
+  <table class="table table-hover" id="mediaDocList">
+    <thead>
+    <tr>
+      <th style="width:100px;">ID</th>
+      <th style="width:300px;">File Name</th>
+      <th style="width:130px;">File Size</th>
+      <th class="preview-header">Preview</th>
+      <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="mediaDocRow" ng-repeat="m in mediaDocs track by $index"
+        ng-class="{'processing':processing && processing.id === m.id}">
+      <td>{{m.resourceName}}</td>
+      <td>{{m.originalFileName}}</td>
+      <td>{{m.fileSize}}</td>
+      <td>
+        <div class="preview" style="background-image: url({{m.accessUrl}})"></div>
+      </td>
+      <td>
+        <div class="description" placeholder="Click to edit, blur to save">{{m.description}}</div>
+      </td>
+    </tr>
+
+    </tbody>
+  </table>
+
+</div>

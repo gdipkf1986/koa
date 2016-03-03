@@ -14,21 +14,37 @@ export default class MediaDocController extends BasicController {
         this.modelName = 'mediaDoc';
         this.Upload = Upload;
 
-        this.load();
-
-
+        const stateName = $state.current.name;
         this.methodToScope(['update', 'uploadFiles', 'delete', 'getHints']);
+        if (stateName === 'resource.mediaDocs.list') {
+            this.load();
+        } else if (stateName === 'resource.mediaDocs.versions') {
+            this.loadVersions($state.params.resourceName);
+        }
 
     }
 
     load(params) {
+        this.processing = true;
+
         return super.load(params).then(data=> {
+            this.processing = false;
             this.$scope.mediaDocs = data.MediaDoc.map(m=>m.toJson());
             return this.$scope.mediaDocs;
         })
     }
 
-    uploadFiles(files, invalidFiles, data) {
+    loadVersions(resourceName) {
+        this.processing = true;
+        this.$scope.mediaDocs = [];
+        this.store.fetchAll('mediaDoc', {resourceName: resourceName, version: -1}).then(data=> {
+            this.processing = false;
+            this.$scope.mediaDocs = data.MediaDoc.map(m=>m.toJson());
+            return this.$scope.mediaDocs;
+        })
+    }
+
+    uploadFiles(files, invalidFiles, data, replace = true) {
         const validFiles = [];
 
         if (files) {
@@ -46,7 +62,8 @@ export default class MediaDocController extends BasicController {
             }
 
             if (validFiles.length < 1) {
-                return alert(`no valid file`);
+                alert(`no valid file`)
+                return;
             } else if (validFiles.length != files.length && !confirm('Some of your files are not valid, do you wanna continue as ignore them?')) {
                 return;
             }
@@ -64,13 +81,21 @@ export default class MediaDocController extends BasicController {
             }).then((result)=> {
                 if (data) {
                     const newData = result.data.payload[0][0];
-                    this.$scope.mediaDocs.forEach(m=> {
-                        if (m.resourceName === newData.resourceName) {
-                            const inst = this.store.peek('mediaDoc', m.id);
-                            inst.setData(newData);
-                            Object.assign(m, newData);
-                        }
-                    })
+                    if (replace) {
+                        this.$scope.mediaDocs.forEach(m=> {
+                            if (m.resourceName === newData.resourceName) {
+                                const inst = this.store.peek('mediaDoc', m.id);
+                                //inst.setData(newData);
+                                this.store.unload(inst);
+                                this.store.create('mediaDoc', newData);
+                                Object.assign(m, newData);
+                            }
+                        });
+                    } else {
+                        this.store.create('mediaDoc', newData);
+                        this.$scope.mediaDocs.push(newData);
+                    }
+
                 } else {
                     result.data.payload[0].forEach(r=> {
                         this.store.create('mediaDoc', r);

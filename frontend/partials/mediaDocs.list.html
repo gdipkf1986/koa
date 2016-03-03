@@ -1,4 +1,4 @@
-<div id="apps" xmlns="http://www.w3.org/1999/html">
+<div id="resources" xmlns="http://www.w3.org/1999/html">
 
   <script type="text/ng-template" id="customTemplate.html">
     <a>
@@ -41,7 +41,7 @@
         <th style="width:130px;">File Size</th>
         <th class="preview-header">Preview</th>
         <th>Description</th>
-        <th style="width:100px;">Operation</th>
+        <th style="width:200px;">Operation</th>
       </tr>
       </thead>
       <tbody>
@@ -68,15 +68,19 @@
           <button type="file"
                   ngf-multiple="false"
                   ngf-max-size="1MB"
-                  ngf-select="uploadFiles($file, $invalidFiles, m)"
-                  class="btn btn-primary btn-sm"/>
-          Update file</button>
+                  ngf-select="uploadFiles($files, $invalidFiles, m)"
+                  class="btn btn-primary btn-sm">
+            Update file
+          </button>
+          <br>
           <button
             class="btn btn-default btn-sm"
             style="margin-top: 5px"
             ng-disabled="processing && processing.id === m.id"
-            ng-click="delete(m)"/>
-          Delete </button>
+            ng-click="delete(m)"> Delete
+          </button>
+          <a class="btn btn-default btn-sm" style="margin-top: 5px"
+             href="/resource/v1/views/mediaDocs/{{ m.resourceName }}/versions"> Versions </a>
         </td>
       </tr>
 

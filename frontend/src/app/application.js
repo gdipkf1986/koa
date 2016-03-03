@@ -52,7 +52,7 @@ application
 
             const templateUrl = (state)=> {
                 let [module, model, action] = state.split('.');
-                return function ($stateParams, $location) {
+                return function($stateParams, $location) {
                     let action_map = {
                         'article_add': 'edit'
                     };
@@ -73,22 +73,28 @@ application
             stateHelperProvider
 
                 .state({
-                    name: 'cms'
-                    , url: '/cms/v1/views'
+                    name: 'resource'
+                    , url: '/resource/v1/views'
                     , template: '<ui-view/>'
                     , children: [{
                         name: 'mediaDocs'
                         , url: '/mediaDocs'
                         , template: '<ui-view/>'
-                        , controller: 'MediaDocController'
                         , children: [{
                             name: 'list'
                             , url: '/'
-                            , templateUrl: templateUrl('cms.mediaDocs.list')
+                            , controller: 'MediaDocController'
+                            , templateUrl: templateUrl('resource.mediaDocs.list')
                         }, {
                             name: 'detail'
-                            , url: '/{appId}'
-                            , templateUrl: templateUrl('cms.mediaDocs.detail')
+                            , url: '/:resourceName'
+                            , controller: 'MediaDocController'
+                            , templateUrl: templateUrl('resource.mediaDocs.detail')
+                        }, {
+                            name: 'versions'
+                            , url: '/:resourceName/versions'
+                            , controller: 'MediaDocController'
+                            , templateUrl: templateUrl('resource.mediaDocs.versions')
                         }]
                     }, {
                         name: 'comingSoon'
@@ -111,7 +117,7 @@ application
                     }
 
                     return path + '/';
-                }).otherwise('/cms/v1/views/mediaDocs/');
+                }).otherwise('/resource/v1/views/mediaDocs/');
 
 
         }

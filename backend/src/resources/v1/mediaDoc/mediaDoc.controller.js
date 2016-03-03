@@ -32,12 +32,12 @@ function* uploadToS3(originalFileName, meta) {
             }
         });
 
-        uploader.on('end', function () {
+        uploader.on('end', function() {
             // todo: delete local temp file once file uploaded to s3
             resolve(`http://s3-ap-southeast-1.amazonaws.com/${config.s3.bucket}/${key}`);
         });
 
-        uploader.on('error', function () {
+        uploader.on('error', function() {
             reject(null);
         });
 
@@ -58,6 +58,19 @@ Object.assign(exports, {
             if (key === 'filename') {
                 query.where['originalFileName'] = {'like': '%' + params[key] + '%'};
             }
+        }
+
+        if (params.hasOwnProperty('version') && params.hasOwnProperty('resourceName')) {
+            const v = parseInt(params.version);
+            if (v) {
+                query.where.resourceName = params.resourceName;
+                if (v === -1) {
+                    delete query.where.version;
+                } else {
+                    query.where.version = v;
+                }
+            }
+
         }
 
         query.order = [['id', 'DESC']];

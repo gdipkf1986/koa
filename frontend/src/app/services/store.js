@@ -50,6 +50,9 @@ function injector(MediaDocModel, UserModel) {
                 return null;
             }
             const c = this._cache._data[modelName];
+            if (typeof id === 'function') {
+                return id(c);
+            }
             return c[id];
         }
 
