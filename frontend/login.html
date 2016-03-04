@@ -34,14 +34,13 @@
     var id_token = googleUser.getAuthResponse().id_token;
 
     $.ajax({
-      url: 'http://127.0.0.1:9000/auth'
+      url: 'http://localhost:9000/auth'
       , method: 'POST'
       , data: {
         id_token: id_token
       }
       , success: function (result) {
-        var data = eval('(' + result + ')');
-        debugger;
+        document.location = '/index.html';
       }
       , error: function () {
         alert('Your login failed, please try again or contact ')

@@ -12,10 +12,11 @@ Object.assign(exports, {
     },
     auth: function*(next) {
 
-        //if (!this.session.token) {
-        //    this.response.redirect('/connect/google');
-        //    return;
-        //}
+        if (!this.request.body.id_token) {
+            this.response.redirect('http://localhost:9001/login.html');
+            yield next;
+            return;
+        }
 
         const cfg = config.s3;
         delete cfg.secretKey;
@@ -24,7 +25,7 @@ Object.assign(exports, {
             success: true,
             payload: {
                 config: {s3: cfg},
-                token: this.session.token
+                token: this.params.id_token
             }
         };
         this.status = 200;
