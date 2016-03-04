@@ -6,27 +6,30 @@ import {log} from '../utils/dev';
 import {ServerEndPoint} from '../AppConfig';
 
 class Account {
-    constructor($http) {
+    /*@ngInject*/
+    constructor($http, $state) {
         this.$http = $http;
-        this.lastAuth = null
+        this.$state = $state;
     }
 
     refreshAuth() {
-        if (this.token) {
-            return Promise.resolve(true);
-        }
+        //if (this.token) {
+        //    return Promise.resolve(true);
+        //}
         return this.$http({url: `${ServerEndPoint}/auth`}).then((response)=> {
             this.config = response.data.payload.config;
             this.token = response.data.payload.token;
             return true;
         }, ()=> {
             console.error('login failed');
+            document.location = '/login.html';
             //document.location = `${ServerEndPoint}/connect/google`;
         });
 
     }
+
+
 }
 
-Account.$inject = ['$http'];
 
 export default Account

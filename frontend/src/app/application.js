@@ -52,7 +52,7 @@ application
 
             const templateUrl = (state)=> {
                 let [module, model, action] = state.split('.');
-                return function($stateParams, $location) {
+                return function ($stateParams, $location) {
                     let action_map = {
                         'article_add': 'edit'
                     };
@@ -73,8 +73,8 @@ application
             stateHelperProvider
 
                 .state({
-                    name: 'resource'
-                    , url: '/resource/v1/views'
+                    name: 'root'
+                    , url: '/v1/views'
                     , template: '<ui-view/>'
                     , children: [{
                         name: 'mediaDocs'
@@ -117,7 +117,7 @@ application
                     }
 
                     return path + '/';
-                }).otherwise('/resource/v1/views/mediaDocs/');
+                }).otherwise('/v1/views/mediaDocs/');
 
 
         }
@@ -161,6 +161,7 @@ import store from './services/store'
 import account from './services/account'
 
 import BasicController from './controllers/basicController';
+import LoginController from './controllers/loginController';
 import MediaDocController from './controllers/mediaDocController';
 
 import BasicModel from './models/basicModel';
@@ -172,6 +173,7 @@ register().service('store', store);
 register().service('account', account);
 
 register().controller('BasicController', BasicController);
+register().controller('LoginController', LoginController);
 register().controller('MediaDocController', MediaDocController);
 
 register().factory('BasicModel', BasicModel);

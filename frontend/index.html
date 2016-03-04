@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head lang="en">
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
   <title>Castlery</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="/app.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css"/>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <meta name="google-signin-client_id"
+        content="1072883307484-k8n0nhskap4ocnllfmu3vbueit4ek7sl.apps.googleusercontent.com	">
+  <link rel="stylesheet" href="/app.css"/>
 </head>
 
 <base href="/"/>
@@ -12,37 +15,37 @@
 <div id="jvloading" style="position: absolute;">loading</div>
 
 <nav class="navbar navbar-default  navbar-fixed-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-          <a class="navbar-brand" href="#">Storage</a>
-        </div>
-
-        <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                   aria-expanded="false"><i class="glyphicon glyphicon-user"></i> <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Profile</a></li>
-                    <li role="separator" class="divider"></li>
-                    <li><a href="/logout" ng-click="$event.stopPropagation()">Logout</a></li>
-                </ul>
-            </li>
-
-        </ul>
-
-
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Storage</a>
     </div>
+
+    <ul class="nav navbar-nav navbar-right">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+           aria-expanded="false"><i class="glyphicon glyphicon-user"></i> <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="#">Profile</a></li>
+          <li role="separator" class="divider"></li>
+          <li><a href="/logout" ng-click="$event.stopPropagation()">Logout</a></li>
+        </ul>
+      </li>
+
+    </ul>
+
+
+  </div>
 </nav>
 
 <div style="height:100%;padding-top: 55px;">
 
-    <div id="main_container" class="container" style="">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <div id="ui-view" ui-view></div>
-            </div>
-        </div>
+  <div id="main_container" class="container" style="">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div id="ui-view" ui-view></div>
+      </div>
     </div>
+  </div>
 
 
 </div>

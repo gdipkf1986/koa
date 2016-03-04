@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link rel="stylesheet" media="screen" href="/app.css">
+  <link rel="icon" type="image /vnd.microsoft.icon" href="/favicon.ico"/>
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <meta name="google-signin-client_id"
+        content="1072883307484-k8n0nhskap4ocnllfmu3vbueit4ek7sl.apps.googleusercontent.com">
+</head>
+<body>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <form action="" method="post" role="form"
+            style="margin-top: 50px;">
+        <legend>Login</legend>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<script>
+
+  function onSignIn(googleUser) {
+    // Useful data for your client-side scripts:
+    var profile = googleUser.getBasicProfile();
+
+    // The ID token you need to pass to your backend:
+    var id_token = googleUser.getAuthResponse().id_token;
+
+    $.ajax({
+      url: 'http://127.0.0.1:9000/auth'
+      , method: 'POST'
+      , data: {
+        id_token: id_token
+      }
+      , success: function (result) {
+        var data = eval('(' + result + ')');
+        debugger;
+      }
+      , error: function () {
+        alert('Your login failed, please try again or contact ')
+      }
+  })
+  }
+  ;
+
+  function signOut() {
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      $.ajax({
+        url: 'http://127.0.0.1:9001/logout'
+        , method: 'GET'
+        , success: function () {
+          document.location = '/management/login'
+        }
+      })
+    });
+  }
+
+</script>
+</body>
+</html>

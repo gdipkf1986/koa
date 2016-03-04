@@ -126,7 +126,7 @@ gulp.task('app_css', ()=> {
 });
 
 gulp.task('html', ()=> {
-    gulp.src(['./partials/*.*', './index.html'])
+    gulp.src(['./partials/*.*', './index.html', './login.html'])
         .pipe(gulp.dest('./dest'))
         .pipe(liveReload());
 });
