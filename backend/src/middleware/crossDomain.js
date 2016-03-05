@@ -5,6 +5,5 @@
 const cors = require('kcors');
 
 module.exports = function (app) {
-    console.log('cross domain inited');
     app.use(cors({credentials: true}));
 };

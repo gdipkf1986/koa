@@ -6,7 +6,6 @@ const config = require('../../../config/environment');
 const models = require('../../../models');
 const s3 = require('s3');
 
-
 const MEDIA_DOC_STATUS = require('../../../models/CONST_STATUS').MEDIADOC;
 
 const amazonS3Client = s3.createClient({
@@ -56,7 +55,7 @@ Object.assign(exports, {
                 query[key] = parseInt(params[key]) || query[key];
             }
             if (key === 'filename') {
-                query.where['originalFileName'] = {'like': '%' + params[key] + '%'};
+                query.where.originalFileName = {'like': '%' + params[key] + '%'};
             }
         }
 
@@ -160,7 +159,7 @@ Object.assign(exports, {
                 }
 
                 if (this.request.body) {
-                    data.description = this.request.body.description
+                    data.description = this.request.body.description;
                 }
 
                 const newInst = yield models.MediaDoc.create(data);
@@ -171,7 +170,7 @@ Object.assign(exports, {
         } else {
             yield currentLatestRecord.update({description: this.request.body.description});
             this.status = 200;
-            this.body = {success: true, payload: currentLatestRecord.toJSON()}
+            this.body = {success: true, payload: currentLatestRecord.toJSON()};
         }
         yield next;
 
@@ -182,7 +181,7 @@ Object.assign(exports, {
         let inst = yield models.MediaDoc.find({where: {resourceName: resourceName, version: 0}, limit: 1});
         if (!inst) {
             this.status = 404;
-            this.body = {success: false, message: 'unknown id'}
+            this.body = {success: false, message: 'unknown id'};
         } else {
             let updateResult = yield inst.update({status: MEDIA_DOC_STATUS.destroyed});
             if (updateResult.status === MEDIA_DOC_STATUS.destroyed) {
