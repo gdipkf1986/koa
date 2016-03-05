@@ -7,7 +7,7 @@ const middleware = require('../routes.middleware');
 router.use(middleware.authenticate());
 
 router.get('/', controller.index);
-router.post('/auth', controller.auth);
+router.get('/auth', controller.auth);
 router.get('/oauth/callback', controller.oauthCallback);
 
 

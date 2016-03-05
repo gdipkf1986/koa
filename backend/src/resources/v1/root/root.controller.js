@@ -1,6 +1,7 @@
 'use strict';
 const config = require('../../../config/environment');
 
+const passport = require('koa-passport');
 
 Object.assign(exports, {
     index: function*(next) {
@@ -12,24 +13,23 @@ Object.assign(exports, {
     },
     auth: function*(next) {
 
-        if (!this.request.body.id_token) {
-            this.response.redirect('http://localhost:9001/login.html');
+        if (this.isAuthenticated()) {
+            const cfg = config.s3;
+            delete cfg.secretKey;
+
+            this.body = {
+                success: true,
+                payload: {
+                    config: {s3: cfg},
+                    token: Math.random()
+                }
+            };
             yield next;
-            return;
+            this.status = 200;
+        } else {
+            this.status = 401;
+            this.body = {};
         }
-
-        const cfg = config.s3;
-        delete cfg.secretKey;
-
-        this.body = {
-            success: true,
-            payload: {
-                config: {s3: cfg},
-                token: this.params.id_token
-            }
-        };
-        this.status = 200;
-        yield next;
     },
     oauthCallback: function*(next) {
 
