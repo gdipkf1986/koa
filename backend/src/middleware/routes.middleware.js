@@ -19,6 +19,7 @@ module.exports = {
     authenticate: function() {
         return function*(next) {
             // check if user logined
+            console.log('--------------> authenticating');
             yield next;
         };
     }

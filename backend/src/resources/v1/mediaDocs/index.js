@@ -2,7 +2,7 @@
 
 const controller = require('./mediaDoc.controller');
 const router = require('koa-router')();
-const routesMiddleware = require('../routes.middleware');
+const routesMiddleware = require('../../../middleware/routes.middleware');
 
 router
     .get('/', controller.list)
@@ -11,4 +11,4 @@ router
     .delete('/:resourceName', routesMiddleware.requireRole('admin'), controller.destroy)
     .get('/:resourceName', controller.get);
 
-module.exports = router.routes();
+module.exports = router;
