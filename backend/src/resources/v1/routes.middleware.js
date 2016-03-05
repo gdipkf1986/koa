@@ -6,7 +6,7 @@
 module.exports = {
     requireRole: function(roles) {
         return function*(next) {
-            // get user information here
+            // get user information by session here
             let authorized = false;
             if (authorized) {
                 yield next;
