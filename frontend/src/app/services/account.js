@@ -3,7 +3,7 @@
  */
 
 import {log} from '../utils/dev';
-import {ServerEndPoint} from '../AppConfig';
+import {ApiEndPoint,ServerEndPoint} from '../AppConfig';
 
 class Account {
     /*@ngInject*/
@@ -14,16 +14,15 @@ class Account {
 
     refreshAuth() {
         return Promise.resolve(true);
-
         if (!this.token) {
-            return this.$http({url: `${ServerEndPoint}/auth`, method: 'POST'}).then((response)=> {
+            return this.$http({url: `${ApiEndPoint}/auth`, method: 'GET'}).then((response)=> {
                 this.config = response.data.payload.config;
                 this.token = response.data.payload.token;
                 return true;
             }, ()=> {
                 console.error('login failed');
                 //document.location = '/login.html';
-                //document.location = `${ServerEndPoint}/connect/google`;
+                document.location = `${ServerEndPoint}/connect/google`;
             });
         } else {
             return Promise.resolve(true);
