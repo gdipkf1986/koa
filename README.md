@@ -67,10 +67,10 @@ For REST api test, please access these endpoints by any rest test tool like Post
         - [ ] Full text search: mysql ISAM engine set full text search index
       - [x] Delete 
  
-  - [ ] Authentication
+  - [x] Authentication
     - [x] Third party authentication integration
-    - [ ] User access control middleware
-      - [ ] Privileges ---> Role <----- Users (Role based access control) 
+    - [x] User access control middleware
+      - [x] Privileges ---> Role <----- Users (Role based access control) 
     
   - [ ] Deployment
     - [ ] Script to deploy
