@@ -1,7 +1,7 @@
 /**
  * Created by jovi on 3/2/16.
  */
-module.exports = {
+const STATUS = {
     MEDIADOC: {
         underReview: 0,
         active: 1,
@@ -13,3 +13,10 @@ module.exports = {
     }
 
 };
+module.exports = STATUS;
+
+const VALUES = {};
+Object.keys(STATUS).forEach(m=> {
+    VALUES[m] = Object.keys(STATUS[m]).map(k=>STATUS[m][k]);
+});
+module.exports.values = VALUES;

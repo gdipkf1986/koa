@@ -3,18 +3,16 @@
  */
 'use strict';
 
-let STATUS = require('./CONST_STATUS').USER;
-STATUS = Object.keys(STATUS).map(k=>STATUS[k]);
-
 module.exports = function(sequelize, DataTypes) {
     const User = sequelize.define('User', {
         username: {type: DataTypes.STRING, allowNull: false},
+        picture: {type: DataTypes.STRING},
         displayName: DataTypes.STRING,
         password: {type: DataTypes.STRING},
         email: DataTypes.STRING,
         status: DataTypes.INTEGER,
-        loginMethod: {type: DataTypes.INTEGER, defaultValue: 0},
-        loginToken: {type: DataTypes.STRING, defaultValue: 0}
+        provider: {type: DataTypes.STRING},
+        providerId: {type: DataTypes.STRING}
     }, {
         associate: function(models) {
             User.belongsTo(models.Role);
