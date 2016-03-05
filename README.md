@@ -37,7 +37,6 @@ $ vim src/config/environment/local.js # configuration of database and other serv
 $ npm run local
 ```
 
-For google oauth login test, please access **http://127.0.0.1:9000/connect/google**
 For REST api test, please access these endpoints by any rest test tool like Post Man 
 * **POST http://127.0.0.1:9000/api/v1/mediaDocs/** with files in form-data by any field name
 * **PUT http://127.0.0.1:9000/api/v1/mediaDocs/${resourceName}** with a single in form-data by any field name, ${resourceName} is returned by POST before, previous files under same resourceName will mark as history
