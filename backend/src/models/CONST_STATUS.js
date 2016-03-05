@@ -12,4 +12,4 @@ module.exports = {
         inactive: 1
     }
 
-}
+};

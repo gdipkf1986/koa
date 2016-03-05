@@ -2,10 +2,10 @@
     "predef": [
         "document",
         "window",
-        "-Promise",
-        "exports"
+        "Promise"
     ],
     "browser": true,
+    "node": true,
     "boss": true,
     "curly": true,
     "debug": false,
@@ -29,5 +29,5 @@
     "white": false,
     "eqnull": true,
     "esnext": true,
-    "unused": true
+    "unused": false
 }

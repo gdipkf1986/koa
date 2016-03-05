@@ -5,8 +5,7 @@
 
 const parse = require('co-body');
 
-
-module.exports = function (app) {
+module.exports = function(app) {
 
     app.use(function*(next) {
         try {
@@ -15,5 +14,5 @@ module.exports = function (app) {
             this.request.body = {};
         }
         yield next;
-    })
-}
+    });
+};

@@ -13,8 +13,7 @@ const isValidFile = (fileOriName, fileStream)=> true;
 
 const isValidCsrf = (ctx, csrf) => true;
 
-module.exports = function (app) {
-    console.log('multipart inited');
+module.exports = function(app) {
 
     app.use(function*(next) {
 
@@ -48,7 +47,7 @@ module.exports = function (app) {
         const files = [];
 
         function* read(part) {
-            return new Promise((resolve)=> {
+            yield new Promise((resolve)=> {
                 const resourceName = Math.random().toString().replace('.', '');
                 const tmpPath = path.join(os.tmpdir(), resourceName);
                 const m = meter();
