@@ -40,7 +40,7 @@ export default class MediaDocController extends BasicController {
             this.processing = false;
             this.$scope.mediaDocs = data.MediaDoc.map(m=>m.toJson());
             return this.$scope.mediaDocs;
-        })
+        });
     }
 
     uploadFiles(files, invalidFiles, data, replace = true) {
@@ -61,7 +61,7 @@ export default class MediaDocController extends BasicController {
             }
 
             if (validFiles.length < 1) {
-                alert(`no valid file`)
+                alert(`no valid file`);
                 return;
             } else if (validFiles.length != files.length && !confirm('Some of your files are not valid, do you wanna continue as ignore them?')) {
                 return;
@@ -103,11 +103,10 @@ export default class MediaDocController extends BasicController {
                 }
                 this.$scope.processing = false;
 
-
             }, ()=> {
                 this.$scope.processing = false;
-                alert('Error occur when upload')
-            })
+                alert('Error occur when upload');
+            });
 
         }
     }
@@ -121,12 +120,12 @@ export default class MediaDocController extends BasicController {
         this.$scope.processing = proxy;
         model.set('description', proxy.description).save().then(()=> {
             this.$scope.processing = false;
-        })
+        });
     }
 
     delete(proxy) {
         if (!confirm(`Are you sure to delete ${proxy.resourceName}`)) {
-            return
+            return;
         }
         const id = proxy.id;
         const model = this.store.peek('mediaDoc', id);
@@ -135,7 +134,9 @@ export default class MediaDocController extends BasicController {
             this.$scope.processing = false;
             this.$scope.mediaDocs = this.$scope.mediaDocs.filter(m=>m.id !== id);
             this.store.unload(model);
-        }, ()=> {
+        }, (response)=> {
+            this.$scope.processing = false;
+            alert(response.data);
         });
     }
 
