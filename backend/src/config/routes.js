@@ -18,6 +18,6 @@ module.exports = function(app) {
         })
         .forEach((dir)=> {
             console.log(`register route /api/v1/${dir === 'root' ? '' : dir}`, 'to', path.join(v1ResourceRoot, dir));
-            app.use(mount(`/api/v1/${dir === 'root' ? '' : dir}`, require(path.join(v1ResourceRoot, dir))));
+            app.use(mount(`/api/v1${dir === 'root' ? '' : '/' + dir}`, require(path.join(v1ResourceRoot, dir))));
         });
 };
