@@ -7,7 +7,7 @@ const models = require('../../../models');
 const s3 = require('s3');
 
 
-const MEDIA_DOC_STATUS = require('../../../models/CONST_MEDIADOC_STATUS');
+const MEDIA_DOC_STATUS = require('../../../models/CONST_STATUS').MEDIADOC;
 
 const amazonS3Client = s3.createClient({
     multipartUploadThreshold: 20971520, // 20 MB
