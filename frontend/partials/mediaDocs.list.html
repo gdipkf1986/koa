@@ -65,22 +65,25 @@
                placeholder="Click to edit, blur to save">{{m.description}}
           </div>
         </td>
-        <td style="text-align: center">
+        <td style="text-align: center; font-size: 0">
           <button type="file"
                   ngf-multiple="false"
                   ngf-max-size="1MB"
                   ngf-select="uploadFiles($files, $invalidFiles, m)"
+                  style="width:100%;"
                   class="btn btn-primary btn-sm">
             Update file
           </button>
           <br>
           <button
             class="btn btn-default btn-sm"
-            style="margin-top: 5px"
+            style="margin: 5px 0 0 0;width:45%"
+
             ng-disabled="processing && processing.id === m.id"
             ng-click="delete(m)"> Delete
           </button>
-          <a class="btn btn-default btn-sm" style="margin-top: 5px"
+          <a class="btn btn-default btn-sm"
+             style="margin: 5px 0 0 10%; width:45%"
              href="/v1/views/mediaDocs/{{ m.resourceName }}/versions"> Versions </a>
         </td>
       </tr>
