@@ -5,8 +5,8 @@
   <title>Login</title>
   <link rel="stylesheet" media="screen" href="/app.css">
   <link rel="icon" type="image /vnd.microsoft.icon" href="/favicon.ico"/>
-  <script src="http://apis.google.com/js/platform.js" async defer></script>
   <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
   <meta name="google-signin-client_id"
         content="1072883307484-k8n0nhskap4ocnllfmu3vbueit4ek7sl.apps.googleusercontent.com">
 </head>
@@ -26,38 +26,37 @@
 
 <script>
 
+
   function onSignIn(googleUser) {
     // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();
 
     // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
-
+    // https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=XYZ123
+    console.log(googleUser.getAuthResponse());
     $.ajax({
       url: 'http://localhost:9000/login'
       , method: 'POST'
       , data: {
         id_token: id_token
       }
-      , success: function (result) {
+      , success: function(result) {
         document.location = '/index.html';
       }
-      , error: function () {
+      , error: function() {
         alert('Your login failed, please try again or contact ')
       }
-  })
+    })
   }
   ;
 
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
-    auth2.signOut().then(function () {
+    auth2.signOut().then(function() {
       $.ajax({
         url: 'http://127.0.0.1:9001/logout'
         , method: 'GET'
-        , success: function () {
-          document.location = '/management/login'
-        }
       })
     });
   }
