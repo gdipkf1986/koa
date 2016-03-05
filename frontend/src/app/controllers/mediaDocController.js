@@ -16,9 +16,9 @@ export default class MediaDocController extends BasicController {
 
         const stateName = $state.current.name;
         this.methodToScope(['update', 'uploadFiles', 'delete', 'getHints']);
-        if (stateName === 'resource.mediaDocs.list') {
+        if (stateName === 'root.mediaDocs.list') {
             this.load();
-        } else if (stateName === 'resource.mediaDocs.versions') {
+        } else if (stateName === 'root.mediaDocs.versions') {
             this.loadVersions($state.params.resourceName);
         }
 
@@ -26,12 +26,11 @@ export default class MediaDocController extends BasicController {
 
     load(params) {
         this.processing = true;
-
         return super.load(params).then(data=> {
             this.processing = false;
             this.$scope.mediaDocs = data.MediaDoc.map(m=>m.toJson());
             return this.$scope.mediaDocs;
-        })
+        });
     }
 
     loadVersions(resourceName) {

@@ -13,6 +13,8 @@ class Account {
     }
 
     refreshAuth() {
+        return Promise.resolve(true);
+
         if (!this.token) {
             return this.$http({url: `${ServerEndPoint}/auth`, method: 'POST'}).then((response)=> {
                 this.config = response.data.payload.config;
@@ -20,18 +22,13 @@ class Account {
                 return true;
             }, ()=> {
                 console.error('login failed');
-                document.location = '/login.html';
+                //document.location = '/login.html';
                 //document.location = `${ServerEndPoint}/connect/google`;
             });
         } else {
             return Promise.resolve(true);
         }
-
-
     }
-
-
 }
 
-
-export default Account
+export default Account;
