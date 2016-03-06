@@ -69,7 +69,9 @@
           <button type="file"
                   ngf-multiple="false"
                   ngf-max-size="1MB"
+                  ngf-accept="'image/*|audio/*|video/*'"
                   ngf-select="uploadFiles($files, $invalidFiles, m)"
+                  ng-disabled="processing && !processing.id"
                   style="width:100%;"
                   class="btn btn-primary btn-sm">
             Update file

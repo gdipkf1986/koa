@@ -44,71 +44,71 @@ export default class MediaDocController extends BasicController {
     }
 
     uploadFiles(files, invalidFiles, data, replace = true) {
-        const validFiles = [];
-
-        if (files) {
-            const allowedMime = ['image', 'audio', 'video'];
-            for (let i = 0; i < files.length; i++) {
-                let file = files[i];
-                if (!file.type) {
-                    console.log(`could not access ${file.name} mime info`);
-                    continue;
-                }
-                const fileMime = file.type.toLowerCase().replace(/\/.+$/g, '');
-                if (allowedMime.indexOf(fileMime) > -1) {
-                    validFiles.push(file);
-                }
-            }
-
-            if (validFiles.length < 1) {
-                alert(`no valid file`);
-                return;
-            } else if (validFiles.length != files.length && !confirm('Some of your files are not valid, do you wanna continue as ignore them?')) {
-                return;
-            }
-            this.$scope.processing = true;
-            let url = `${ApiEndPoint}/mediaDocs/`;
-            let method = 'POST';
-            if (data) {
-                url = `${ApiEndPoint}/mediaDocs/${data.resourceName}`;
-                method = 'PUT';
-            }
-            this.Upload.upload({
-                url,
-                method,
-                data: {validFiles}
-            }).then((result)=> {
-                if (data) {
-                    const newData = result.data.payload[0][0];
-                    if (replace) {
-                        this.$scope.mediaDocs.forEach(m=> {
-                            if (m.resourceName === newData.resourceName) {
-                                const inst = this.store.peek('mediaDoc', m.id);
-                                //inst.setData(newData);
-                                this.store.unload(inst);
-                                this.store.create('mediaDoc', newData);
-                                Object.assign(m, newData);
-                            }
-                        });
-                    } else {
-                        this.store.create('mediaDoc', newData);
-                        this.$scope.mediaDocs.push(newData);
-                    }
-
-                } else {
-                    result.data.payload[0].forEach(r=> {
-                        this.store.create('mediaDoc', r);
-                    });
-                    this.$scope.mediaDocs = result.data.payload[0].concat(this.$scope.mediaDocs);
-                }
-                this.$scope.processing = false;
-
-            }, ()=> {
-                this.$scope.processing = false;
-                alert('Error occur when upload');
-            });
-
+        if (!files || !files.length) {
+            return;
         }
+        const validFiles = [];
+        const allowedMime = ['image', 'audio', 'video'];
+        for (let i = 0; i < files.length; i++) {
+            let file = files[i];
+            if (!file.type) {
+                console.log(`could not access ${file.name} mime info`);
+                continue;
+            }
+            const fileMime = file.type.toLowerCase().replace(/\/.+$/g, '');
+            if (allowedMime.indexOf(fileMime) > -1) {
+                validFiles.push(file);
+            }
+        }
+
+        if (validFiles.length < 1) {
+            alert(`no valid file`);
+            return;
+        } else if (validFiles.length != files.length && !confirm('Some of your files are not valid, do you wanna continue as ignore them?')) {
+            return;
+        }
+        this.$scope.processing = true;
+        let url = `${ApiEndPoint}/mediaDocs/`;
+        let method = 'POST';
+        if (data) {
+            url = `${ApiEndPoint}/mediaDocs/${data.resourceName}`;
+            method = 'PUT';
+        }
+        this.Upload.upload({
+            url,
+            method,
+            data: {validFiles}
+        }).then((result)=> {
+            if (data) {
+                const newData = result.data.payload[0][0];
+                if (replace) {
+                    this.$scope.mediaDocs.forEach(m=> {
+                        if (m.resourceName === newData.resourceName) {
+                            const inst = this.store.peek('mediaDoc', m.id);
+                            //inst.setData(newData);
+                            this.store.unload(inst);
+                            this.store.create('mediaDoc', newData);
+                            Object.assign(m, newData);
+                        }
+                    });
+                } else {
+                    this.store.create('mediaDoc', newData);
+                    this.$scope.mediaDocs.push(newData);
+                }
+
+            } else {
+                result.data.payload[0].forEach(r=> {
+                    this.store.create('mediaDoc', r);
+                });
+                this.$scope.mediaDocs = result.data.payload[0].concat(this.$scope.mediaDocs);
+            }
+            this.$scope.processing = false;
+
+        }, ()=> {
+            this.$scope.processing = false;
+            alert('Error occur when upload');
+        });
+
     }
 
     update(proxy) {
