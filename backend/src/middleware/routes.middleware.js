@@ -18,9 +18,14 @@ module.exports = {
     },
     authenticate: function() {
         return function*(next) {
-            // check if user logined
-            console.log('--------------> authenticating');
-            yield next;
+            const url = this.request.url;
+            console.log(`--------------> authenticating on reqesting ${url}`);
+
+            if (this.session.user || url.indexOf('/login') > -1 || url.indexOf('/logout') > -1) {
+                yield next;
+            } else {
+                this.status = 401;
+            }
         };
     }
 };

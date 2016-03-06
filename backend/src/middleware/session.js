@@ -8,8 +8,9 @@ module.exports = function(app) {
     app.keys = ['jovi-castlery'];
     app.use(session(app));
 
-    //app.use(function*(next){
-    //    console.log('==== cookies ===',this.cookies.get('koa:sess'));
-    //    yield next;
-    //})
+    app.use(function*(next) {
+        console.log('==== request ===', this.req.url);
+        console.log('==== cookies ===', this.cookies.get('koa:sess'));
+        yield next;
+    });
 };

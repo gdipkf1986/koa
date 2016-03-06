@@ -3,8 +3,9 @@
 const controller = require('./root.controller');
 const router = require('koa-router')();
 
-router.get('/', controller.index);
+router.all('/', controller.index);
 router.get('/auth', controller.auth);
+router.post('/login', controller.login);
 router.get('/oauth/callback', controller.oauthCallback);
 
 

@@ -28,28 +28,23 @@
 
 
   function onSignIn(googleUser) {
-    // Useful data for your client-side scripts:
     var profile = googleUser.getBasicProfile();
-
-    // The ID token you need to pass to your backend:
     var id_token = googleUser.getAuthResponse().id_token;
-    // https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=XYZ123
-    console.log(googleUser.getAuthResponse());
     $.ajax({
-      url: 'http://localhost:9000/login'
+      url: 'http://localhost:9000/api/v1/login'
       , method: 'POST'
+      , crossDomain: true
+      , xhrFields: {
+        withCredentials: true
+      }
       , data: {
         id_token: id_token
       }
-      , success: function(result) {
-        document.location = '/index.html';
-      }
-      , error: function() {
-        alert('Your login failed, please try again or contact ')
-      }
-    })
+    }).then(function() {
+      document.location = '/index.html';
+    });
+
   }
-  ;
 
   function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();

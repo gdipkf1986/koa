@@ -155,6 +155,7 @@ gulp.task('vendor_js', ()=> {
 gulp.task('watch', () => {
     liveReload.listen();
     argv.debug = true;
+    gulp.watch(__dirname + 'package.json', ['vendor_js']);
     gulp.watch(__dirname + '/src/app/**/*.js', ['app_js']);
     gulp.watch(__dirname + '/src/scss/**/*.scss', ['app_css']);
     gulp.watch([__dirname + '/partials/**/*.html', './index.html'], ['html']);
@@ -164,11 +165,7 @@ gulp.task('webserver', ()=> {
     gulp.src('./dest')
         .pipe(webserver({
             fallback: 'index.html',
-            port: 9001,
-            livereload: {
-                enable: true,
-                filter: fileName => !fileName.match(/.map$/)
-            }
+            port: 9001
         }));
 });
 
