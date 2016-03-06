@@ -47,7 +47,7 @@ module.exports = function(app) {
         const files = [];
 
         function* read(part) {
-            yield new Promise((resolve)=> {
+            return yield new Promise((resolve)=> {
                 const resourceName = Math.random().toString().replace('.', '');
                 const tmpPath = path.join(os.tmpdir(), resourceName);
                 const m = meter();
