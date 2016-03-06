@@ -11,13 +11,8 @@ export default class BasicController {
         this.store = store;
         this.$state = $state;
         this.account = account;
-        this.auth();
         $scope.store = store;
         this.methodToScope(['load']);
-    }
-
-    auth() {
-        this.account.refreshAuth();
     }
 
     init() {

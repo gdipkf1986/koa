@@ -11,23 +11,6 @@ class Account {
         this.$http = $http;
         this.$state = $state;
     }
-
-    refreshAuth() {
-        return Promise.resolve(true);
-        if (!this.token) {
-            return this.$http({url: `${ApiEndPoint}/auth`, method: 'GET'}).then((response)=> {
-                this.config = response.data.payload.config;
-                this.token = response.data.payload.token;
-                return true;
-            }, ()=> {
-                console.error('login failed');
-                //document.location = '/login.html';
-                document.location = `${ServerEndPoint}/connect/google`;
-            });
-        } else {
-            return Promise.resolve(true);
-        }
-    }
 }
 
 export default Account;
