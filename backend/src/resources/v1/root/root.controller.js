@@ -40,5 +40,11 @@ Object.assign(exports, {
         this.session.user = user.toJSON();
         this.status = 200;
         yield next;
+    },
+    logout: function*(next) {
+        this.sesssion = null;
+        this.status = 200;
+        this.body = 'You are logout, you can <a href="/api/v1/login">Login</a> again';
+        yield next;
     }
 });
