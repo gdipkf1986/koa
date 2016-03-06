@@ -7,9 +7,9 @@ const expect = require('chai').expect;
 const should = require('should');
 
 describe('GET /api/v1', function() {
-    it('should respond with 200', function(done) {
+    it('should respond with 401', function(done) {
         request
             .get('/api/v1')
-            .expect(403, done);
+            .expect(401, done);
     });
 });
