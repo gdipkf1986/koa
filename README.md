@@ -106,6 +106,10 @@ $ gulp —gulpfile gulp.babel.js webserver webserver
    - [x] PUT
    - [x] Delete
    - [x] Search
+   
+   
+ - [x] Babel transformer
+   - [x] Feature compiler: will ignore related code block if a feature is turned off, it won't even physically include in compiled file! 
     
  
     
