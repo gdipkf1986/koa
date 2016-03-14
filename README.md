@@ -2,6 +2,8 @@
 
 > Jovi's project for Castlery assessment
 
+https://codeship.com/projects/28b86b70-cbf0-0133-9d81-5698e26793f2/status?branch=master
+
 ## Purpose
 
 This project is for demo full stack skill set of javascript, build on **Koa**, **Angularjs** and other 3rd party libraries. 
