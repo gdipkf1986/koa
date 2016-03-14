@@ -2,7 +2,7 @@
 
 > Jovi's project for Castlery assessment
 
-https://codeship.com/projects/28b86b70-cbf0-0133-9d81-5698e26793f2/status?branch=master
+[ ![Codeship Status for gdipkf1986/koa](https://codeship.com/projects/28b86b70-cbf0-0133-9d81-5698e26793f2/status?branch=master)](https://codeship.com/projects/140087)
 
 ## Purpose
 
