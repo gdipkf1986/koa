@@ -9,8 +9,8 @@ module.exports = function(app) {
     app.use(session(app));
 
     app.use(function*(next) {
-        console.log('==== request ===', this.req.url);
-        console.log('==== cookies ===', this.cookies.get('koa:sess'));
+        //console.log('==== request ===', this.req.url);
+        //console.log('==== cookies ===', this.cookies.get('koa:sess'));
         yield next;
     });
 };
