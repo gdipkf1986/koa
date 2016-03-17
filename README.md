@@ -1,6 +1,6 @@
-# Castlery project
+# Koa 
 
-> Jovi's project for Castlery assessment
+> Explore Koa, ng1.x with es6
 
 [ ![Codeship Status for gdipkf1986/koa](https://codeship.com/projects/28b86b70-cbf0-0133-9d81-5698e26793f2/status?branch=master)](https://codeship.com/projects/140087)
 
@@ -30,11 +30,12 @@ Target to provide a REST service and SPA portal.
 
 ### Backend
 
-Backend is build on ES6 and Mysql, please make user you are installed it properly before config application.
+Backend is build on ES6 and Mysql, please make user you are installed nodejs and mysql properly before config application.
 
 ```bash
 $ cd ~/backend
 $ npm install 
+$ cp src/config/enviroment/product.js src/config/environment/local.js # copy product config to local config
 $ vim src/config/environment/local.js # configuration of database and other service like Amazon S3, google oauth
 $ npm run local
 ```
@@ -91,7 +92,15 @@ $ npm i -g gulp babel-core babel-preset-es2015
 $ npm install 
 $ gulp —gulpfile gulp.babel.js default
 $ gulp —gulpfile gulp.babel.js webserver webserver
-# visti http://localhost:9001/ via modern browser 
+# visit http://localhost:9001/ via modern browser 
+```
+
+
+For test babel transformer (see "Babel transformer" below):
+```bash
+$ cd ~/frontend/babelTransformers/
+$ gulp --gulpfile gulp.bable.js default
+$ # compair scripts/app.js and scripts/dest/app.js
 ```
  
  - [x] System
@@ -112,6 +121,6 @@ $ gulp —gulpfile gulp.babel.js webserver webserver
    
  - [x] Babel transformer
    - [x] Feature compiler: will ignore related code block if a feature is turned off, it won't even physically include in compiled file! 
-    
+   - [x] Customize import path: use "~" as root path of project. 
  
     
